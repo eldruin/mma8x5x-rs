@@ -22,11 +22,11 @@
 //! generate inertial wake-up interrupt signals from any combination of the configurable embedded
 //! functions, enabling the MMA8653FC to monitor inertial events while remaining in a low-power
 //! mode during periods of inactivity.
-//! 
+//!
 //! ### Feature comparison
-//! 
+//!
 //! (Unavailable features are marked with "-" as this is more easily readable than Yes/No)
-//! 
+//!
 //! | Feature                                   | MMA8451 | MMA8452 | MMA8453 | MMA8652 | MMA8653 |
 //! |-------------------------------------------|---------|---------|---------|---------|---------|
 //! | Resolution                                | 14-bit  | 12-bit  | 10-bit  | 12-bit  | 10-bit  |
@@ -46,7 +46,7 @@
 //! | Directional-tap interrupt                 | Yes     | Yes     | Yes     | Yes     | -       |
 //! | Freefall interrupt                        | Yes     | Yes     | Yes     | Yes     | Yes     |
 //! | Motion interrupt with direction           | Yes     | Yes     | Yes     | Yes     | -       |
-//! 
+//!
 //! Documentation:
 //! - Datasheets: [MMA8653FC](https://www.nxp.com/docs/en/data-sheet/MMA8653FC.pdf)
 //!
@@ -73,10 +73,13 @@
 
 use core::marker::PhantomData;
 mod types;
-pub use crate::types::{ic, Error, UnscaledMeasurement};
+use crate::types::MMA845X_BASE_ADDR;
+pub use crate::types::{ic, Error, SlaveAddr, UnscaledMeasurement};
 mod common;
 mod conversion;
+mod mma845x;
 mod mma8653;
+mod mma865x;
 mod register_access;
 
 /// MMA8x5x device driver

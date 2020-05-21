@@ -1,11 +1,31 @@
 use embedded_hal_mock::i2c::{Mock as I2cMock, Transaction as I2cTrans};
-use mma8x5x::{ic, Mma8x5x};
+use mma8x5x::{ic, Mma8x5x, SlaveAddr};
 
 pub struct Register {}
 #[allow(unused)]
 impl Register {
     pub const OUT_X_H: u8 = 0x01;
     pub const WHO_AM_I: u8 = 0x0D;
+}
+
+#[allow(unused)]
+pub fn new_mma8451(transactions: &[I2cTrans]) -> Mma8x5x<I2cMock, ic::Mma8451> {
+    Mma8x5x::new_mma8451(I2cMock::new(transactions), SlaveAddr::default())
+}
+
+#[allow(unused)]
+pub fn new_mma8452(transactions: &[I2cTrans]) -> Mma8x5x<I2cMock, ic::Mma8452> {
+    Mma8x5x::new_mma8452(I2cMock::new(transactions), SlaveAddr::default())
+}
+
+#[allow(unused)]
+pub fn new_mma8453(transactions: &[I2cTrans]) -> Mma8x5x<I2cMock, ic::Mma8453> {
+    Mma8x5x::new_mma8453(I2cMock::new(transactions), SlaveAddr::default())
+}
+
+#[allow(unused)]
+pub fn new_mma8652(transactions: &[I2cTrans]) -> Mma8x5x<I2cMock, ic::Mma8652> {
+    Mma8x5x::new_mma8652(I2cMock::new(transactions))
 }
 
 #[allow(unused)]
