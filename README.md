@@ -5,7 +5,7 @@
 [![Build Status](https://travis-ci.com/eldruin/mma8x5x-rs.svg?branch=master)](https://travis-ci.com/eldruin/mma8x5x-rs)
 [![Coverage Status](https://coveralls.io/repos/github/eldruin/mma8x5x-rs/badge.svg?branch=master)](https://coveralls.io/github/eldruin/mma8x5x-rs?branch=master)
 
-This is a platform agnostic Rust driver for the MMA8450, MMA8451, MMA8452, MMA8453, MMA8652
+This is a platform agnostic Rust driver for the MMA8451, MMA8452, MMA8453, MMA8652
 and MMA8653 tri-axis accelerators using the [`embedded-hal`] traits.
 
 <!-- TODO

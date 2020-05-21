@@ -1,4 +1,4 @@
-//! This is a platform agnostic Rust driver for the MMA8450, MMA8451, MMA8452, MMA8453, MMA8652
+//! This is a platform agnostic Rust driver for the MMA8451, MMA8452, MMA8453, MMA8652
 //! and MMA8653 tri-axis accelerators using the [`embedded-hal`] traits.
 //!
 //! [`embedded-hal`]: https://github.com/rust-embedded/embedded-hal
