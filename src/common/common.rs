@@ -1,6 +1,6 @@
 use crate::{
     register_access::{BitFlags, Register},
-    Error, GScale, Mma8x5x,
+    Error, GScale, Mma8x5x, ReadMode,
 };
 use embedded_hal::blocking::i2c;
 
@@ -38,6 +38,17 @@ where
         };
         self.write_reg(Register::XYZ_DATA_CFG, config.bits)?;
         self.xyz_data_cfg = config;
+        Ok(())
+    }
+
+    /// Set read mode (Normal/Fast)
+    pub fn set_read_mode(&mut self, mode: ReadMode) -> Result<(), Error<E>> {
+        let config = match mode {
+            ReadMode::Normal => self.ctrl_reg1.with_low(BitFlags::F_READ),
+            ReadMode::Fast => self.ctrl_reg1.with_high(BitFlags::F_READ),
+        };
+        self.write_reg(Register::CTRL_REG1, config.bits)?;
+        self.ctrl_reg1 = config;
         Ok(())
     }
 }

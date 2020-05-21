@@ -3,7 +3,7 @@
 use crate::{
     conversion::{convert_10bit, convert_12bit, convert_14bit},
     ic, mode,
-    register_access::Register,
+    register_access::{BitFlags, Register},
     Error, Measurement, Mma8x5x, UnscaledMeasurement,
 };
 use embedded_hal::blocking::i2c;
@@ -21,16 +21,27 @@ where
     }
 
     pub(crate) fn read_raw(&mut self) -> Result<(u16, u16, u16), Error<E>> {
-        // TODO support 8-bit fast read
-        let mut data = [0; 6];
-        self.i2c
-            .write_read(self.address, &[Register::OUT_X_H], &mut data)
-            .map_err(Error::I2C)?;
-        Ok((
-            (u16::from(data[0]) << 8) | u16::from(data[1]),
-            (u16::from(data[2]) << 8) | u16::from(data[3]),
-            (u16::from(data[4]) << 8) | u16::from(data[5]),
-        ))
+        if self.ctrl_reg1.is_high(BitFlags::F_READ) {
+            let mut data = [0; 3];
+            self.i2c
+                .write_read(self.address, &[Register::OUT_X_H], &mut data)
+                .map_err(Error::I2C)?;
+            Ok((
+                (u16::from(data[0]) << 8),
+                (u16::from(data[1]) << 8),
+                (u16::from(data[2]) << 8),
+            ))
+        } else {
+            let mut data = [0; 6];
+            self.i2c
+                .write_read(self.address, &[Register::OUT_X_H], &mut data)
+                .map_err(Error::I2C)?;
+            Ok((
+                (u16::from(data[0]) << 8) | u16::from(data[1]),
+                (u16::from(data[2]) << 8) | u16::from(data[3]),
+                (u16::from(data[4]) << 8) | u16::from(data[5]),
+            ))
+        }
     }
 }
 

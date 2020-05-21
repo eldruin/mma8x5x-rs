@@ -3,7 +3,7 @@ use crate::base::{
     destroy, new_mma8451, new_mma8452, new_mma8453, new_mma8652, new_mma8653, Register, ADDRESS,
 };
 use embedded_hal_mock::i2c::Transaction as I2cTrans;
-use mma8x5x::{GScale, Measurement, UnscaledMeasurement};
+use mma8x5x::{GScale, Measurement, ReadMode, UnscaledMeasurement};
 
 macro_rules! set_scale_read_test {
     ($name:ident, $create:ident, $gscale:ident, $gscale_bits:expr, $bit_shift:expr, $max:expr, $g:expr) => {
@@ -81,6 +81,25 @@ macro_rules! read_tests {
                 assert_near!(m.z, expected.z, 0.01);
                 destroy(sensor);
             }
+
+            #[test]
+            fn can_read_fast_unscaled() {
+                let sensor = $create(&[
+                    I2cTrans::write(ADDRESS, vec![Register::CTRL_REG1, 1]),
+                    I2cTrans::write(ADDRESS, vec![Register::CTRL_REG1, 3]),
+                    I2cTrans::write_read(ADDRESS, vec![Register::OUT_X_H], vec![0x41, 0x42, 0x43]),
+                ]);
+                let expected = UnscaledMeasurement {
+                    x: 0x4100 >> $bit_shift,
+                    y: 0x4200 >> $bit_shift,
+                    z: 0x4300 >> $bit_shift,
+                };
+                let mut sensor = sensor.active().ok().unwrap();
+                sensor.set_read_mode(ReadMode::Fast).unwrap();
+                assert_eq!(expected, sensor.read_unscaled().unwrap());
+                destroy(sensor);
+            }
+
             set_scale_read_test!(set_2g_read, $create, G2, 0, $bit_shift, $max, 2.0);
             set_scale_read_test!(set_4g_read, $create, G4, 1, $bit_shift, $max, 4.0);
             set_scale_read_test!(set_8g_read, $create, G8, 2, $bit_shift, $max, 8.0);

@@ -71,6 +71,15 @@ pub enum GScale {
     G8,
 }
 
+/// Read mode
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub enum ReadMode {
+    /// Normal read mode (default)
+    Normal,
+    /// Fast read mode
+    Fast,
+}
+
 /// Possible slave addresses
 #[derive(Debug, Clone, Copy)]
 pub enum SlaveAddr {

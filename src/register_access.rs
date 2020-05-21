@@ -14,6 +14,7 @@ impl BitFlags {
     pub const FS1: u8 = 1 << 1;
     pub const FS0: u8 = 1;
     pub const ACTIVE: u8 = 1;
+    pub const F_READ: u8 = 1 << 1;
 }
 
 impl<E, I2C, IC, MODE> Mma8x5x<I2C, IC, MODE>

@@ -76,7 +76,7 @@ use core::marker::PhantomData;
 mod types;
 use crate::types::MMA845X_BASE_ADDR;
 pub use crate::types::{
-    ic, mode, Error, GScale, Measurement, ModeChangeError, SlaveAddr, UnscaledMeasurement,
+    ic, mode, Error, GScale, Measurement, ModeChangeError, ReadMode, SlaveAddr, UnscaledMeasurement,
 };
 mod common;
 mod conversion;
@@ -111,5 +111,8 @@ impl Config {
         Config {
             bits: self.bits & !mask,
         }
+    }
+    fn is_high(&self, mask: u8) -> bool {
+        (self.bits & mask) != 0
     }
 }
