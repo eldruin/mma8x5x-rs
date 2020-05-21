@@ -51,4 +51,22 @@ where
         self.ctrl_reg1 = config;
         Ok(())
     }
+
+    /// Set offset correction.
+    ///
+    /// The resolution is 1.96/LSB. The offset compensation range is +/-250mg.
+    pub fn set_offset_correction(&mut self, x: i8, y: i8, z: i8) -> Result<(), Error<E>> {
+        self.i2c
+            .write(self.address, &[Register::OFF_X, x as u8, y as u8, z as u8])
+            .map_err(Error::I2C)
+    }
+
+    /// Get offset correction for axes X, Y and Z.
+    pub fn offset_correction(&mut self) -> Result<(i8, i8, i8), Error<E>> {
+        let mut data = [0; 3];
+        self.i2c
+            .write_read(self.address, &[Register::OFF_X], &mut data)
+            .map_err(Error::I2C)?;
+        Ok((data[0] as i8, data[1] as i8, data[2] as i8))
+    }
 }

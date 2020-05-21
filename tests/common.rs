@@ -24,6 +24,28 @@ macro_rules! tests {
                 let sensor = sensor.standby().ok().unwrap();
                 destroy(sensor);
             }
+
+            #[test]
+            fn can_set_offset_correction() {
+                let mut sensor = $create(&[I2cTrans::write(
+                    ADDRESS,
+                    vec![Register::OFF_X, 0x7F, 0x80, 0xFF],
+                )]);
+                sensor.set_offset_correction(127, -128, -1).unwrap();
+                destroy(sensor);
+            }
+
+            #[test]
+            fn can_get_offset_correction() {
+                let mut sensor = $create(&[I2cTrans::write_read(
+                    ADDRESS,
+                    vec![Register::OFF_X],
+                    vec![0x7F, 0x80, 0xFF],
+                )]);
+                let offsets = sensor.offset_correction().unwrap();
+                assert_eq!((127, -128, -1), offsets);
+                destroy(sensor);
+            }
         }
     };
 }

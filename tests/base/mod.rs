@@ -11,6 +11,7 @@ impl Register {
     pub const WHO_AM_I: u8 = 0x0D;
     pub const XYZ_DATA_CFG: u8 = 0x0E;
     pub const CTRL_REG1: u8 = 0x2A;
+    pub const OFF_X: u8 = 0x2F;
 }
 
 #[allow(unused)]
