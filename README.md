@@ -51,6 +51,7 @@ mode during periods of inactivity.
 | Directional-tap interrupt                 | Yes     | Yes     | Yes     | Yes     | -       |
 | Freefall interrupt                        | Yes     | Yes     | Yes     | Yes     | Yes     |
 | Motion interrupt with direction           | Yes     | Yes     | Yes     | Yes     | -       |
+| Selectable address pin                    | Yes     | Yes     | Yes     | -       | -       |
 
 Documentation:
 - Datasheets: [MMA8653FC](https://www.nxp.com/docs/en/data-sheet/MMA8653FC.pdf)
