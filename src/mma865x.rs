@@ -1,6 +1,6 @@
 //! MLX90614-specific functions
 
-use crate::{ic, Mma8x5x};
+use crate::{ic, Config, Mma8x5x};
 use core::marker::PhantomData;
 
 impl<I2C> Mma8x5x<I2C, ic::Mma8652> {
@@ -9,6 +9,7 @@ impl<I2C> Mma8x5x<I2C, ic::Mma8652> {
         Mma8x5x {
             i2c,
             address: 0x1D,
+            xyz_data_cfg: Config::default(),
             _ic: PhantomData,
         }
     }
@@ -20,6 +21,7 @@ impl<I2C> Mma8x5x<I2C, ic::Mma8653> {
         Mma8x5x {
             i2c,
             address: 0x1D,
+            xyz_data_cfg: Config::default(),
             _ic: PhantomData,
         }
     }

@@ -32,6 +32,28 @@ pub struct UnscaledMeasurement {
     pub z: i16,
 }
 
+/// Acceleration measurement scaled to configured G range
+#[derive(Debug, Default, Clone)]
+pub struct Measurement {
+    /// X-axis acceleration.
+    pub x: f32,
+    /// Y-axis acceleration.
+    pub y: f32,
+    /// Z-axis acceleration.
+    pub z: f32,
+}
+
+/// G scale
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub enum GScale {
+    /// Range: +/-2g
+    G2,
+    /// Range: +/-4g
+    G4,
+    /// Range: +/-8g
+    G8,
+}
+
 /// Possible slave addresses
 #[derive(Debug, Clone, Copy)]
 pub enum SlaveAddr {

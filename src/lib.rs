@@ -75,11 +75,11 @@
 use core::marker::PhantomData;
 mod types;
 use crate::types::MMA845X_BASE_ADDR;
-pub use crate::types::{ic, Error, SlaveAddr, UnscaledMeasurement};
+pub use crate::types::{ic, Error, GScale, Measurement, SlaveAddr, UnscaledMeasurement};
 mod common;
+mod common_read;
 mod conversion;
 mod mma845x;
-mod mma8653;
 mod mma865x;
 mod register_access;
 
@@ -89,5 +89,24 @@ pub struct Mma8x5x<I2C, IC> {
     /// The concrete I²C device implementation.
     i2c: I2C,
     address: u8,
+    xyz_data_cfg: Config, //TODO reset when transiting from standby to active, kept from active to standby
     _ic: PhantomData<IC>,
+}
+
+#[derive(Debug, Default, Clone, Copy, PartialEq)]
+struct Config {
+    bits: u8,
+}
+
+impl Config {
+    fn with_high(self, mask: u8) -> Self {
+        Config {
+            bits: self.bits | mask,
+        }
+    }
+    fn with_low(self, mask: u8) -> Self {
+        Config {
+            bits: self.bits & !mask,
+        }
+    }
 }

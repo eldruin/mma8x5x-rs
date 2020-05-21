@@ -1,4 +1,4 @@
-use crate::{ic, Mma8x5x, SlaveAddr, MMA845X_BASE_ADDR};
+use crate::{ic, Config, Mma8x5x, SlaveAddr, MMA845X_BASE_ADDR};
 use core::marker::PhantomData;
 
 impl<I2C> Mma8x5x<I2C, ic::Mma8451> {
@@ -6,6 +6,7 @@ impl<I2C> Mma8x5x<I2C, ic::Mma8451> {
     pub fn new_mma8451(i2c: I2C, address: SlaveAddr) -> Self {
         Mma8x5x {
             i2c,
+            xyz_data_cfg: Config::default(),
             address: address.addr(MMA845X_BASE_ADDR),
             _ic: PhantomData,
         }
@@ -18,6 +19,7 @@ impl<I2C> Mma8x5x<I2C, ic::Mma8452> {
         Mma8x5x {
             i2c,
             address: address.addr(MMA845X_BASE_ADDR),
+            xyz_data_cfg: Config::default(),
             _ic: PhantomData,
         }
     }
@@ -28,6 +30,7 @@ impl<I2C> Mma8x5x<I2C, ic::Mma8453> {
     pub fn new_mma8453(i2c: I2C, address: SlaveAddr) -> Self {
         Mma8x5x {
             i2c,
+            xyz_data_cfg: Config::default(),
             address: address.addr(MMA845X_BASE_ADDR),
             _ic: PhantomData,
         }

@@ -6,6 +6,7 @@ pub struct Register {}
 impl Register {
     pub const OUT_X_H: u8 = 0x01;
     pub const WHO_AM_I: u8 = 0x0D;
+    pub const XYZ_DATA_CFG: u8 = 0x0E;
 }
 
 #[allow(unused)]
@@ -35,4 +36,12 @@ pub fn new_mma8653(transactions: &[I2cTrans]) -> Mma8x5x<I2cMock, ic::Mma8653> {
 
 pub fn destroy<IC>(sensor: Mma8x5x<I2cMock, IC>) {
     sensor.destroy().done();
+}
+
+#[macro_export]
+macro_rules! assert_near {
+    ($value:expr, $expected:expr, $epsilon:expr) => {
+        assert!(($value - $epsilon) < $expected);
+        assert!(($value + $epsilon) > $expected);
+    };
 }
