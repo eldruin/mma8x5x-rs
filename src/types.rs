@@ -7,6 +7,15 @@ pub enum Error<E> {
     I2C(E),
 }
 
+/// All possible errors in this crate
+#[derive(Debug)]
+pub struct ModeChangeError<E, DEV> {
+    /// I²C bus error
+    pub error: Error<E>,
+    /// Original device without mode changed
+    pub dev: DEV,
+}
+
 /// IC markers
 pub mod ic {
     /// MMA8451 IC marker
@@ -19,6 +28,14 @@ pub mod ic {
     pub struct Mma8652;
     /// MMA8653 IC marker
     pub struct Mma8653;
+}
+
+/// Mode markers
+pub mod mode {
+    /// Standby mode
+    pub struct Standby;
+    /// Active mode
+    pub struct Active;
 }
 
 /// Unscaled acceleration measurement

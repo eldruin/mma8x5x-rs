@@ -6,15 +6,17 @@ impl Register {
     pub const OUT_X_H: u8 = 0x01;
     pub const WHO_AM_I: u8 = 0x0D;
     pub const XYZ_DATA_CFG: u8 = 0x0E;
+    pub const CTRL_REG1: u8 = 0x2A;
 }
 
 pub struct BitFlags;
 impl BitFlags {
     pub const FS1: u8 = 1 << 1;
     pub const FS0: u8 = 1;
+    pub const ACTIVE: u8 = 1;
 }
 
-impl<E, I2C, IC> Mma8x5x<I2C, IC>
+impl<E, I2C, IC, MODE> Mma8x5x<I2C, IC, MODE>
 where
     I2C: i2c::WriteRead<Error = E>,
 {
@@ -27,7 +29,7 @@ where
     }
 }
 
-impl<E, I2C, IC> Mma8x5x<I2C, IC>
+impl<E, I2C, IC, MODE> Mma8x5x<I2C, IC, MODE>
 where
     I2C: i2c::Write<Error = E>,
 {
