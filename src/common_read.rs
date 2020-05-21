@@ -1,6 +1,9 @@
 //! MLX90614-specific functions
 
-use crate::{conversion::convert_10bit, ic, Error, Measurement, Mma8x5x, UnscaledMeasurement};
+use crate::{
+    conversion::{convert_10bit, convert_12bit, convert_14bit},
+    ic, Error, Measurement, Mma8x5x, UnscaledMeasurement,
+};
 use embedded_hal::blocking::i2c;
 
 macro_rules! read_impl {
@@ -24,4 +27,8 @@ macro_rules! read_impl {
     };
 }
 
+read_impl!(Mma8451, convert_14bit, 4096.0);
+read_impl!(Mma8452, convert_12bit, 1024.0);
+read_impl!(Mma8453, convert_10bit, 256.0);
+read_impl!(Mma8652, convert_12bit, 1024.0);
 read_impl!(Mma8653, convert_10bit, 256.0);
