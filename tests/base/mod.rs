@@ -1,9 +1,10 @@
 use embedded_hal_mock::i2c::{Mock as I2cMock, Transaction as I2cTrans};
 use mma8x5x::{ic, Mma8x5x};
 
-#[allow(unused)]
 pub struct Register {}
+#[allow(unused)]
 impl Register {
+    pub const OUT_X_H: u8 = 0x01;
     pub const WHO_AM_I: u8 = 0x0D;
 }
 

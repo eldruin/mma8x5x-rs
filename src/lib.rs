@@ -49,8 +49,9 @@
 
 use core::marker::PhantomData;
 mod types;
-pub use crate::types::{ic, Error};
+pub use crate::types::{ic, Error, UnscaledMeasurement};
 mod common;
+mod conversion;
 mod mma8653;
 mod register_access;
 
