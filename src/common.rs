@@ -34,7 +34,7 @@ where
             GScale::G8 => self
                 .xyz_data_cfg
                 .with_high(BitFlags::FS1)
-                .with_high(BitFlags::FS0),
+                .with_low(BitFlags::FS0),
         };
         self.write_reg(Register::XYZ_DATA_CFG, config.bits)?;
         self.xyz_data_cfg = config;
