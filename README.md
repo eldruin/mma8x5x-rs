@@ -28,6 +28,30 @@ generate inertial wake-up interrupt signals from any combination of the configur
 functions, enabling the MMA8653FC to monitor inertial events while remaining in a low-power
 mode during periods of inactivity. 
 
+### Feature comparison
+
+(Unavailable features are marked with "-" as this is more easily readable than Yes/No)
+
+| Feature                                   | MMA8451 | MMA8452 | MMA8453 | MMA8652 | MMA8653 |
+|-------------------------------------------|---------|---------|---------|---------|---------|
+| Resolution                                | 14-bit  | 12-bit  | 10-bit  | 12-bit  | 10-bit  |
+| Sensitivity in 2g mode (counts/g)         | 4096    | 1024    | 256     | 1024    | 256     |
+| 32-level FIFO                             | Yes     | -       | -       | Yes     | -       |
+| Low power mode                            | Yes     | Yes     | Yes     | Yes     | Yes     |
+| Auto-WAKE                                 | Yes     | Yes     | Yes     | Yes     | Yes     |
+| Auto-SLEEP                                | Yes     | Yes     | Yes     | Yes     | Yes     |
+| High-pass filter                          | Yes     | Yes     | Yes     | Yes     | -       |
+| Low-pass filter                           | Yes     | Yes     | Yes     | Yes     | Yes     |
+| Transient detection with high-pass filter | Yes     | Yes     | Yes     | Yes     | -       |
+| Fixed orientation detection               | Yes     | Yes     | Yes     | -       | Yes     |
+| Programmable orientation detection        | Yes     | -       | -       | Yes     | -       |
+| Data-ready interrupt                      | Yes     | Yes     | Yes     | Yes     | Yes     |
+| Single-tap interrupt                      | Yes     | Yes     | Yes     | Yes     | -       |
+| Double-tap interrupt                      | Yes     | Yes     | Yes     | Yes     | -       |
+| Directional-tap interrupt                 | Yes     | Yes     | Yes     | Yes     | -       |
+| Freefall interrupt                        | Yes     | Yes     | Yes     | Yes     | Yes     |
+| Motion interrupt with direction           | Yes     | Yes     | Yes     | Yes     | -       |
+
 Documentation:
 - Datasheets: [MMA8653FC](https://www.nxp.com/docs/en/data-sheet/MMA8653FC.pdf)
 
