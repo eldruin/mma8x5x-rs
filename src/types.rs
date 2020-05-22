@@ -138,6 +138,27 @@ pub enum SystemMode {
     Sleep,
 }
 
+/// Current data status
+#[derive(Debug, Default, Clone, Copy, PartialEq)]
+pub struct DataStatus {
+    /// X,Y,Z-axis data overwrite
+    pub xyz_overwrite: bool,
+    /// X-axis data overwrite
+    pub x_overwrite: bool,
+    /// Y-axis data overwrite
+    pub y_overwrite: bool,
+    /// Z-axis data overwrite
+    pub z_overwrite: bool,
+    /// X,Y,Z-axis new data ready
+    pub xyz_new_data: bool,
+    /// X-axis data overwrite
+    pub x_new_data: bool,
+    /// Y-axis data overwrite
+    pub y_new_data: bool,
+    /// Z-axis data overwrite
+    pub z_new_data: bool,
+}
+
 /// Possible slave addresses
 #[derive(Debug, Clone, Copy)]
 pub enum SlaveAddr {

@@ -3,6 +3,7 @@ use embedded_hal::blocking::i2c;
 
 pub struct Register {}
 impl Register {
+    pub const STATUS: u8 = 0x00;
     pub const OUT_X_H: u8 = 0x01;
     pub const SYSMOD: u8 = 0x0B;
     pub const WHO_AM_I: u8 = 0x0D;
@@ -30,6 +31,14 @@ impl BitFlags {
     pub const SMODS1: u8 = 1 << 4;
     pub const RST: u8 = 1 << 6;
     pub const ST: u8 = 1 << 7;
+    pub const XDR: u8 = 1;
+    pub const YDR: u8 = 1 << 1;
+    pub const ZDR: u8 = 1 << 2;
+    pub const XYZDR: u8 = 1 << 3;
+    pub const XOW: u8 = 1 << 4;
+    pub const YOW: u8 = 1 << 5;
+    pub const ZOW: u8 = 1 << 6;
+    pub const XYZOW: u8 = 1 << 7;
 }
 
 impl<E, I2C, IC, MODE> Mma8x5x<I2C, IC, MODE>
