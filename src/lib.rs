@@ -76,8 +76,8 @@ use core::marker::PhantomData;
 mod types;
 use crate::types::MMA845X_BASE_ADDR;
 pub use crate::types::{
-    ic, mode, Error, GScale, Measurement, ModeChangeError, OutputDataRate, ReadMode, SlaveAddr,
-    UnscaledMeasurement,
+    ic, mode, Error, GScale, Measurement, ModeChangeError, OutputDataRate, PowerMode, ReadMode,
+    SlaveAddr, UnscaledMeasurement,
 };
 mod common;
 mod conversion;
@@ -91,8 +91,9 @@ pub struct Mma8x5x<I2C, IC, MODE> {
     /// The concrete I²C device implementation.
     i2c: I2C,
     address: u8,
-    xyz_data_cfg: Config, //TODO reset when transiting from standby to active, kept from active to standby
     ctrl_reg1: Config,
+    ctrl_reg2: Config,
+    xyz_data_cfg: Config,
     _ic: PhantomData<IC>,
     _mode: PhantomData<MODE>,
 }

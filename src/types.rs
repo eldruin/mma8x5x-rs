@@ -101,6 +101,19 @@ pub enum OutputDataRate {
     Hz1_56,
 }
 
+/// Power mode
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub enum PowerMode {
+    /// Normal (default)
+    Normal,
+    /// Low noise low power
+    LowNoiseLowPower,
+    /// High resolution
+    HighResolution,
+    ///Low power
+    LowPower,
+}
+
 /// Possible slave addresses
 #[derive(Debug, Clone, Copy)]
 pub enum SlaveAddr {

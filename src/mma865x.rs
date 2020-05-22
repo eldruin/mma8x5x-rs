@@ -11,6 +11,7 @@ impl<I2C> Mma8x5x<I2C, ic::Mma8652, mode::Standby> {
             address: 0x1D,
             xyz_data_cfg: Config::default(),
             ctrl_reg1: Config::default(),
+            ctrl_reg2: Config::default(),
             _ic: PhantomData,
             _mode: PhantomData,
         }
@@ -25,6 +26,7 @@ impl<I2C> Mma8x5x<I2C, ic::Mma8653, mode::Standby> {
             address: 0x1D,
             xyz_data_cfg: Config::default(),
             ctrl_reg1: Config::default(),
+            ctrl_reg2: Config::default(),
             _ic: PhantomData,
             _mode: PhantomData,
         }

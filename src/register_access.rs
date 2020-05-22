@@ -7,6 +7,7 @@ impl Register {
     pub const WHO_AM_I: u8 = 0x0D;
     pub const XYZ_DATA_CFG: u8 = 0x0E;
     pub const CTRL_REG1: u8 = 0x2A;
+    pub const CTRL_REG2: u8 = 0x2B;
     pub const OFF_X: u8 = 0x2F;
 }
 
@@ -19,6 +20,8 @@ impl BitFlags {
     pub const ODR0: u8 = 1 << 3;
     pub const ODR1: u8 = 1 << 4;
     pub const ODR2: u8 = 1 << 5;
+    pub const MODS0: u8 = 1;
+    pub const MODS1: u8 = 1 << 1;
 }
 
 impl<E, I2C, IC, MODE> Mma8x5x<I2C, IC, MODE>

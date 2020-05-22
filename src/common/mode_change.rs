@@ -18,8 +18,9 @@ where
             Ok(_) => Ok(Mma8x5x {
                 i2c: self.i2c,
                 address: self.address,
-                xyz_data_cfg: self.xyz_data_cfg,
                 ctrl_reg1: config,
+                ctrl_reg2: self.ctrl_reg2,
+                xyz_data_cfg: self.xyz_data_cfg,
                 _ic: PhantomData,
                 _mode: PhantomData,
             }),
@@ -39,8 +40,9 @@ where
             Ok(_) => Ok(Mma8x5x {
                 i2c: self.i2c,
                 address: self.address,
-                xyz_data_cfg: self.xyz_data_cfg,
                 ctrl_reg1: config,
+                ctrl_reg2: self.ctrl_reg2,
+                xyz_data_cfg: self.xyz_data_cfg,
                 _ic: PhantomData,
                 _mode: PhantomData,
             }),

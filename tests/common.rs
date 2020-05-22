@@ -4,19 +4,18 @@ use crate::base::{
     Register, ADDRESS,
 };
 use embedded_hal_mock::i2c::Transaction as I2cTrans;
-use mma8x5x::OutputDataRate;
+use mma8x5x::{OutputDataRate, PowerMode};
 
 macro_rules! set_odr_test {
     ($name:ident, $create:ident, $variant:ident, $expected:expr) => {
-        #[test]
-        fn $name() {
-            let mut sensor = $create(&[I2cTrans::write(
-                ADDRESS,
-                vec![Register::CTRL_REG1, $expected],
-            )]);
-            sensor.set_data_rate(OutputDataRate::$variant).unwrap();
-            destroy(sensor);
-        }
+        set_test!(
+            $name,
+            $create,
+            CTRL_REG1,
+            $expected,
+            set_data_rate,
+            OutputDataRate::$variant
+        );
     };
 }
 
@@ -75,6 +74,39 @@ macro_rules! tests {
                 $create,
                 Hz1_56,
                 BF::ODR2 | BF::ODR1 | BF::ODR0
+            );
+
+            set_test!(
+                set_wpm_normal,
+                $create,
+                CTRL_REG2,
+                0,
+                set_wake_power_mode,
+                PowerMode::Normal
+            );
+            set_test!(
+                set_wpm_low_noise,
+                $create,
+                CTRL_REG2,
+                BF::MODS0,
+                set_wake_power_mode,
+                PowerMode::LowNoiseLowPower
+            );
+            set_test!(
+                set_wpm_high_resolution,
+                $create,
+                CTRL_REG2,
+                BF::MODS1,
+                set_wake_power_mode,
+                PowerMode::HighResolution
+            );
+            set_test!(
+                set_wpm_low_power,
+                $create,
+                CTRL_REG2,
+                BF::MODS1 | BF::MODS0,
+                set_wake_power_mode,
+                PowerMode::LowPower
             );
         }
     };

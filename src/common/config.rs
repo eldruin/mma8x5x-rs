@@ -1,7 +1,7 @@
 use crate::{
     mode,
     register_access::{BitFlags, Register},
-    Config, Error, GScale, Mma8x5x, OutputDataRate, ReadMode,
+    Config, Error, GScale, Mma8x5x, OutputDataRate, PowerMode, ReadMode,
 };
 use embedded_hal::blocking::i2c;
 
@@ -65,6 +65,20 @@ where
         };
         self.write_reg(Register::CTRL_REG1, bits | mask)?;
         self.ctrl_reg1 = Config { bits };
+        Ok(())
+    }
+
+    /// Set power mode in WAKE mode
+    pub fn set_wake_power_mode(&mut self, power_mode: PowerMode) -> Result<(), Error<E>> {
+        let bits = self.ctrl_reg2.bits & !(BitFlags::MODS0 | BitFlags::MODS1);
+        let mask = match power_mode {
+            PowerMode::Normal => 0,
+            PowerMode::LowNoiseLowPower => BitFlags::MODS0,
+            PowerMode::HighResolution => BitFlags::MODS1,
+            PowerMode::LowPower => BitFlags::MODS1 | BitFlags::MODS0,
+        };
+        self.write_reg(Register::CTRL_REG2, bits | mask)?;
+        self.ctrl_reg2 = Config { bits };
         Ok(())
     }
 }
