@@ -1,5 +1,5 @@
-//! This is a platform agnostic Rust driver for the MMA8451, MMA8452, MMA8453, MMA8652
-//! and MMA8653 tri-axis accelerators using the [`embedded-hal`] traits.
+//! This is a platform agnostic Rust driver for the MMA8451Q, MMA8452Q, MMA8453Q, MMA8652FC
+//! and MMA8653FC tri-axis accelerators using the [`embedded-hal`] traits.
 //!
 //! [`embedded-hal`]: https://github.com/rust-embedded/embedded-hal
 //!
@@ -13,14 +13,14 @@
 //!
 //! ## The devices
 //!
-//! The MMA8653FC is an intelligent, low-power, three-axis, capacitive micromachined accelerometer
-//! with 10 bits of resolution. This accelerometer is packed with embedded functions with flexible
-//! user-programmable options, configurable to two interrupt pins. Embedded interrupt functions
+//! The devices are intelligent, low-power, three-axis, capacitive micromachined accelerometers
+//! with 10/12/14 bits of resolution. The accelerometers are packed with embedded functions with flexible
+//! user-programmable options, configurable to interrupt pins. Embedded interrupt functions
 //! enable overall power savings, by relieving the host processor from continuously polling data.
 //! There is access to either low-pass or high-pass filtered data, which minimizes the data
 //! analysis required for jolt detection and faster transitions. The device can be configured to
 //! generate inertial wake-up interrupt signals from any combination of the configurable embedded
-//! functions, enabling the MMA8653FC to monitor inertial events while remaining in a low-power
+//! functions, enabling the devices to monitor inertial events while remaining in a low-power
 //! mode during periods of inactivity.
 //!
 //! ### Feature comparison
@@ -49,7 +49,12 @@
 //! | Selectable address pin                    | Yes     | Yes     | Yes     | -       | -       |
 //!
 //! Documentation:
-//! - Datasheets: [MMA8653FC](https://www.nxp.com/docs/en/data-sheet/MMA8653FC.pdf)
+//! - Datasheets:
+//!     - [MMA8451Q](https://www.nxp.com/docs/en/data-sheet/MMA8451Q.pdf)
+//!     - [MMA8452Q](https://www.nxp.com/docs/en/data-sheet/MMA8452Q.pdf)
+//!     - [MMA8453Q](https://www.nxp.com/docs/en/data-sheet/MMA8453Q.pdf)
+//!     - [MMA8652FC](https://www.nxp.com/docs/en/data-sheet/MMA8652FC.pdf)
+//!     - [MMA8653FC](https://www.nxp.com/docs/en/data-sheet/MMA8653FC.pdf)
 //!
 //! <!-- TODO
 //! ## Usage examples (see also examples folder)
