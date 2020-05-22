@@ -1,6 +1,6 @@
 //! Common functions
 
-mod common;
+mod common_impl;
 mod config;
 mod mode_change;
 mod read;
