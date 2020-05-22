@@ -8,6 +8,7 @@ pub struct Register {}
 #[allow(unused)]
 impl Register {
     pub const OUT_X_H: u8 = 0x01;
+    pub const SYSMOD: u8 = 0x0B;
     pub const WHO_AM_I: u8 = 0x0D;
     pub const XYZ_DATA_CFG: u8 = 0x0E;
     pub const CTRL_REG1: u8 = 0x2A;
@@ -79,6 +80,23 @@ macro_rules! set_test {
                 vec![Register::$register, $expected],
             )]);
             sensor.$method($($arg,)*).unwrap();
+            destroy(sensor);
+        }
+    };
+}
+
+#[macro_export]
+macro_rules! get_test {
+    ($name:ident, $create:ident, $register:ident, $read:expr, $method:ident, $expected:expr) => {
+        #[test]
+        fn $name() {
+            let mut sensor = $create(&[I2cTrans::write_read(
+                ADDRESS,
+                vec![Register::$register],
+                vec![$read],
+            )]);
+            let v = sensor.$method().unwrap();
+            assert_eq!(v, $expected);
             destroy(sensor);
         }
     };

@@ -127,6 +127,17 @@ pub enum PowerMode {
     LowPower,
 }
 
+/// Current system mode
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub enum SystemMode {
+    /// Standby mode
+    Standby,
+    /// Wake mode
+    Wake,
+    /// Sleep mode
+    Sleep,
+}
+
 /// Possible slave addresses
 #[derive(Debug, Clone, Copy)]
 pub enum SlaveAddr {

@@ -4,6 +4,7 @@ use embedded_hal::blocking::i2c;
 pub struct Register {}
 impl Register {
     pub const OUT_X_H: u8 = 0x01;
+    pub const SYSMOD: u8 = 0x0B;
     pub const WHO_AM_I: u8 = 0x0D;
     pub const XYZ_DATA_CFG: u8 = 0x0E;
     pub const CTRL_REG1: u8 = 0x2A;

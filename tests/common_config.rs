@@ -50,18 +50,6 @@ macro_rules! tests {
                 destroy(sensor);
             }
 
-            #[test]
-            fn can_get_offset_correction() {
-                let mut sensor = $create(&[I2cTrans::write_read(
-                    ADDRESS,
-                    vec![Register::OFF_X],
-                    vec![0x7F, 0x80, 0xFF],
-                )]);
-                let offsets = sensor.offset_correction().unwrap();
-                assert_eq!((127, -128, -1), offsets);
-                destroy(sensor);
-            }
-
             set_odr_test!(set_odr_800, $create, Hz800, 0);
             set_odr_test!(set_odr_400, $create, Hz400, BF::ODR0);
             set_odr_test!(set_odr_200, $create, Hz200, BF::ODR1);
@@ -219,14 +207,3 @@ tests!(mma8452, new_mma8452);
 tests!(mma8453, new_mma8453);
 tests!(mma8652, new_mma8652);
 tests!(mma8653, new_mma8653);
-
-#[test]
-fn can_read_device_id() {
-    let mut sensor = new_mma8653(&[I2cTrans::write_read(
-        0x1D,
-        vec![Register::WHO_AM_I],
-        vec![0x3A],
-    )]);
-    assert_eq!(0x3A, sensor.device_id().unwrap());
-    destroy(sensor);
-}
