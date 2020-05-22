@@ -186,8 +186,8 @@ impl SlaveAddr {
 
 #[cfg(test)]
 mod tests {
+    use super::MMA845X_BASE_ADDR as BASE_ADDR;
     use super::*;
-    use MMA845X_BASE_ADDR as BASE_ADDR;
 
     #[test]
     fn can_get_default_address() {
