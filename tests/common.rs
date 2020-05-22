@@ -189,6 +189,18 @@ macro_rules! tests {
                 set_auto_wake_data_rate,
                 AutoWakeDataRate::Hz1_56
             );
+
+            set_test!(can_reset, $create, CTRL_REG2, BF::RST, reset);
+            #[test]
+            fn can_activate_then_reset() {
+                let sensor = $create(&[
+                    I2cTrans::write(ADDRESS, vec![Register::CTRL_REG1, 1]),
+                    I2cTrans::write(ADDRESS, vec![Register::CTRL_REG2, BF::RST]),
+                ]);
+                let sensor = sensor.active().ok().unwrap();
+                let sensor = sensor.reset().ok().unwrap();
+                destroy(sensor);
+            }
         }
     };
 }

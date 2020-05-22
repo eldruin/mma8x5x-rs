@@ -48,4 +48,20 @@ where
             }),
         }
     }
+
+    /// Reset (changes mode to standby)
+    pub fn reset(mut self) -> Result<Mma8x5x<I2C, IC, mode::Standby>, ModeChangeError<E, Self>> {
+        match self.reset_internal() {
+            Err(error) => Err(ModeChangeError { error, dev: self }),
+            Ok(_) => Ok(Mma8x5x {
+                i2c: self.i2c,
+                address: self.address,
+                ctrl_reg1: self.ctrl_reg1,
+                ctrl_reg2: self.ctrl_reg2,
+                xyz_data_cfg: self.xyz_data_cfg,
+                _ic: PhantomData,
+                _mode: PhantomData,
+            }),
+        }
+    }
 }

@@ -125,4 +125,23 @@ where
         self.ctrl_reg1 = Config { bits };
         Ok(())
     }
+
+    /// Reset device
+    pub fn reset(&mut self) -> Result<(), Error<E>> {
+        self.reset_internal()
+    }
+}
+
+impl<E, I2C, IC, MODE> Mma8x5x<I2C, IC, MODE>
+where
+    I2C: i2c::WriteRead<Error = E> + i2c::Write<Error = E>,
+{
+    pub(crate) fn reset_internal(&mut self) -> Result<(), Error<E>> {
+        let config = self.ctrl_reg2.with_high(BitFlags::RST);
+        self.write_reg(Register::CTRL_REG2, config.bits)?;
+        self.ctrl_reg1 = Config::default();
+        self.ctrl_reg2 = Config::default();
+        self.xyz_data_cfg = Config::default();
+        Ok(())
+    }
 }
