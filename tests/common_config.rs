@@ -178,6 +178,15 @@ macro_rules! tests {
                 AutoSleepDataRate::Hz1_56
             );
 
+            set_test!(
+                set_auto_sleep_count,
+                $create,
+                ASLP_COUNT,
+                0xAB,
+                set_auto_sleep_count,
+                0xAB
+            );
+
             set_test!(can_reset, $create, CTRL_REG2, BF::RST, reset);
             #[test]
             fn can_activate_then_reset() {

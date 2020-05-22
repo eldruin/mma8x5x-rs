@@ -126,6 +126,11 @@ where
         Ok(())
     }
 
+    /// Set auto-sleep/wake count
+    pub fn set_auto_sleep_count(&mut self, count: u8) -> Result<(), Error<E>> {
+        self.write_reg(Register::ASLP_COUNT, count)
+    }
+
     /// Reset device
     pub fn reset(&mut self) -> Result<(), Error<E>> {
         self.reset_internal()
