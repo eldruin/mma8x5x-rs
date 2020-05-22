@@ -101,6 +101,19 @@ pub enum OutputDataRate {
     Hz1_56,
 }
 
+/// Auto-wake sampling rate used in auto-sleep mode
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub enum AutoWakeDataRate {
+    /// 50 Hz (default)
+    Hz50,
+    /// 12.5 Hz
+    Hz12_5,
+    /// 6.25 Hz
+    Hz6_25,
+    /// 1.56 Hz
+    Hz1_56,
+}
+
 /// Power mode
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub enum PowerMode {

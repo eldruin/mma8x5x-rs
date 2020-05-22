@@ -4,7 +4,7 @@ use crate::base::{
     Register, ADDRESS,
 };
 use embedded_hal_mock::i2c::Transaction as I2cTrans;
-use mma8x5x::{OutputDataRate, PowerMode};
+use mma8x5x::{AutoWakeDataRate, OutputDataRate, PowerMode};
 
 macro_rules! set_odr_test {
     ($name:ident, $create:ident, $variant:ident, $expected:expr) => {
@@ -155,6 +155,39 @@ macro_rules! tests {
                 CTRL_REG2,
                 0,
                 disable_auto_sleep
+            );
+
+            set_test!(
+                set_awake_data_rate_50hz,
+                $create,
+                CTRL_REG1,
+                0,
+                set_auto_wake_data_rate,
+                AutoWakeDataRate::Hz50
+            );
+            set_test!(
+                set_awake_data_rate_12_5hz,
+                $create,
+                CTRL_REG1,
+                BF::ASLP_RATE0,
+                set_auto_wake_data_rate,
+                AutoWakeDataRate::Hz12_5
+            );
+            set_test!(
+                set_awake_data_rate_6_25hz,
+                $create,
+                CTRL_REG1,
+                BF::ASLP_RATE1,
+                set_auto_wake_data_rate,
+                AutoWakeDataRate::Hz6_25
+            );
+            set_test!(
+                set_awake_data_rate_1_56hz,
+                $create,
+                CTRL_REG1,
+                BF::ASLP_RATE1 | BF::ASLP_RATE0,
+                set_auto_wake_data_rate,
+                AutoWakeDataRate::Hz1_56
             );
         }
     };

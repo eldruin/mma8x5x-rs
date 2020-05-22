@@ -17,6 +17,8 @@ impl BitFlags {
     pub const FS0: u8 = 1;
     pub const ACTIVE: u8 = 1;
     pub const F_READ: u8 = 1 << 1;
+    pub const ASLP_RATE0: u8 = 1 << 6;
+    pub const ASLP_RATE1: u8 = 1 << 7;
     pub const ODR0: u8 = 1 << 3;
     pub const ODR1: u8 = 1 << 4;
     pub const ODR2: u8 = 1 << 5;
