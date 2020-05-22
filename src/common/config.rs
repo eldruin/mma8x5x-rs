@@ -81,4 +81,18 @@ where
         self.ctrl_reg2 = Config { bits };
         Ok(())
     }
+
+    /// Set power mode in sleep mode
+    pub fn set_sleep_power_mode(&mut self, power_mode: PowerMode) -> Result<(), Error<E>> {
+        let bits = self.ctrl_reg2.bits & !(BitFlags::SMODS0 | BitFlags::SMODS1);
+        let mask = match power_mode {
+            PowerMode::Normal => 0,
+            PowerMode::LowNoiseLowPower => BitFlags::SMODS0,
+            PowerMode::HighResolution => BitFlags::SMODS1,
+            PowerMode::LowPower => BitFlags::SMODS1 | BitFlags::SMODS0,
+        };
+        self.write_reg(Register::CTRL_REG2, bits | mask)?;
+        self.ctrl_reg2 = Config { bits };
+        Ok(())
+    }
 }

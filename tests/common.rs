@@ -77,7 +77,7 @@ macro_rules! tests {
             );
 
             set_test!(
-                set_wpm_normal,
+                set_wake_pm_normal,
                 $create,
                 CTRL_REG2,
                 0,
@@ -85,7 +85,7 @@ macro_rules! tests {
                 PowerMode::Normal
             );
             set_test!(
-                set_wpm_low_noise,
+                set_wake_pm_low_noise,
                 $create,
                 CTRL_REG2,
                 BF::MODS0,
@@ -93,7 +93,7 @@ macro_rules! tests {
                 PowerMode::LowNoiseLowPower
             );
             set_test!(
-                set_wpm_high_resolution,
+                set_wake_pm_high_resolution,
                 $create,
                 CTRL_REG2,
                 BF::MODS1,
@@ -101,11 +101,44 @@ macro_rules! tests {
                 PowerMode::HighResolution
             );
             set_test!(
-                set_wpm_low_power,
+                set_wake_pm_low_power,
                 $create,
                 CTRL_REG2,
                 BF::MODS1 | BF::MODS0,
                 set_wake_power_mode,
+                PowerMode::LowPower
+            );
+
+            set_test!(
+                set_sleep_pm_normal,
+                $create,
+                CTRL_REG2,
+                0,
+                set_sleep_power_mode,
+                PowerMode::Normal
+            );
+            set_test!(
+                set_sleep_pm_low_noise,
+                $create,
+                CTRL_REG2,
+                BF::SMODS0,
+                set_sleep_power_mode,
+                PowerMode::LowNoiseLowPower
+            );
+            set_test!(
+                set_sleep_pm_high_resolution,
+                $create,
+                CTRL_REG2,
+                BF::SMODS1,
+                set_sleep_power_mode,
+                PowerMode::HighResolution
+            );
+            set_test!(
+                set_sleep_pm_low_power,
+                $create,
+                CTRL_REG2,
+                BF::SMODS1 | BF::SMODS0,
+                set_sleep_power_mode,
                 PowerMode::LowPower
             );
         }
