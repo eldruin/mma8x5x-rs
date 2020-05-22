@@ -2,13 +2,15 @@
 
 use crate::{
     conversion::{convert_10bit, convert_12bit, convert_14bit},
-    ic, mode,
+    ic,
     register_access::{BitFlags, Register},
     Error, Measurement, Mma8x5x, UnscaledMeasurement,
 };
 use embedded_hal::blocking::i2c;
 
-impl<E, I2C, IC> Mma8x5x<I2C, IC, mode::Active>
+// The only reason reading is not limited to active mode is so that
+// data can also be read during self-test mode.
+impl<E, I2C, IC, MODE> Mma8x5x<I2C, IC, MODE>
 where
     I2C: i2c::WriteRead<Error = E> + i2c::Write<Error = E>,
 {
@@ -55,17 +57,21 @@ fn scale(unscaled: UnscaledMeasurement, max: f32) -> Measurement {
 
 macro_rules! read_impl {
     ($ic:ident, $converter:ident, $max:expr) => {
-        impl<E, I2C> Mma8x5x<I2C, ic::$ic, mode::Active>
+        impl<E, I2C, MODE> Mma8x5x<I2C, ic::$ic, MODE>
         where
             I2C: i2c::WriteRead<Error = E> + i2c::Write<Error = E>,
         {
             /// Read unscaled acceleration sensor data.
+            ///
+            /// Note: The values are only valid when in active mode or during self-test
             pub fn read_unscaled(&mut self) -> Result<UnscaledMeasurement, Error<E>> {
                 let m = self.read_raw()?;
                 Ok($converter(m.0, m.1, m.2))
             }
 
             /// Read acceleration sensor data scaled to G.
+            ///
+            /// Note: The values are only valid when in active mode or during self-test
             pub fn read(&mut self) -> Result<Measurement, Error<E>> {
                 let unscaled = self.read_unscaled()?;
                 Ok(self.scale_measurement(unscaled, $max))

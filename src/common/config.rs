@@ -130,6 +130,22 @@ where
     pub fn reset(&mut self) -> Result<(), Error<E>> {
         self.reset_internal()
     }
+
+    /// Enable self-test mode
+    pub fn enable_self_test(&mut self) -> Result<(), Error<E>> {
+        let config = self.ctrl_reg2.with_high(BitFlags::ST);
+        self.write_reg(Register::CTRL_REG2, config.bits)?;
+        self.ctrl_reg2 = config;
+        Ok(())
+    }
+
+    /// Disable self-test mode
+    pub fn disable_self_test(&mut self) -> Result<(), Error<E>> {
+        let config = self.ctrl_reg2.with_low(BitFlags::ST);
+        self.write_reg(Register::CTRL_REG2, config.bits)?;
+        self.ctrl_reg2 = config;
+        Ok(())
+    }
 }
 
 impl<E, I2C, IC, MODE> Mma8x5x<I2C, IC, MODE>

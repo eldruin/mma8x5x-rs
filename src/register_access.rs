@@ -28,6 +28,7 @@ impl BitFlags {
     pub const SMODS0: u8 = 1 << 3;
     pub const SMODS1: u8 = 1 << 4;
     pub const RST: u8 = 1 << 6;
+    pub const ST: u8 = 1 << 7;
 }
 
 impl<E, I2C, IC, MODE> Mma8x5x<I2C, IC, MODE>

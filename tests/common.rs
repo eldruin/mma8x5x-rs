@@ -201,6 +201,15 @@ macro_rules! tests {
                 let sensor = sensor.reset().ok().unwrap();
                 destroy(sensor);
             }
+
+            set_test!(
+                enable_self_test,
+                $create,
+                CTRL_REG2,
+                BF::ST,
+                enable_self_test
+            );
+            set_test!(disable_self_test, $create, CTRL_REG2, 0, disable_self_test);
         }
     };
 }
