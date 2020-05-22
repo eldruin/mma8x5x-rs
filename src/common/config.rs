@@ -1,7 +1,7 @@
 use crate::{
     mode,
     register_access::{BitFlags, Register},
-    AutoWakeDataRate, Config, Error, GScale, Mma8x5x, OutputDataRate, PowerMode, ReadMode,
+    AutoSleepDataRate, Config, Error, GScale, Mma8x5x, OutputDataRate, PowerMode, ReadMode,
 };
 use embedded_hal::blocking::i2c;
 
@@ -112,14 +112,14 @@ where
         Ok(())
     }
 
-    /// Set auto-wake sampling rate used in auto-sleep mode
-    pub fn set_auto_wake_data_rate(&mut self, rate: AutoWakeDataRate) -> Result<(), Error<E>> {
+    /// Set sampling rate used in auto-sleep mode
+    pub fn set_auto_sleep_data_rate(&mut self, rate: AutoSleepDataRate) -> Result<(), Error<E>> {
         let bits = self.ctrl_reg1.bits & !(BitFlags::ASLP_RATE1 | BitFlags::ASLP_RATE0);
         let mask = match rate {
-            AutoWakeDataRate::Hz50 => 0,
-            AutoWakeDataRate::Hz12_5 => BitFlags::ASLP_RATE0,
-            AutoWakeDataRate::Hz6_25 => BitFlags::ASLP_RATE1,
-            AutoWakeDataRate::Hz1_56 => BitFlags::ASLP_RATE1 | BitFlags::ASLP_RATE0,
+            AutoSleepDataRate::Hz50 => 0,
+            AutoSleepDataRate::Hz12_5 => BitFlags::ASLP_RATE0,
+            AutoSleepDataRate::Hz6_25 => BitFlags::ASLP_RATE1,
+            AutoSleepDataRate::Hz1_56 => BitFlags::ASLP_RATE1 | BitFlags::ASLP_RATE0,
         };
         self.write_reg(Register::CTRL_REG1, bits | mask)?;
         self.ctrl_reg1 = Config { bits };
