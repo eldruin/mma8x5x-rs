@@ -1,7 +1,7 @@
 use crate::{
     mode,
     register_access::{BitFlags, Register},
-    Error, GScale, Mma8x5x, ReadMode,
+    Config, Error, GScale, Mma8x5x, OutputDataRate, ReadMode,
 };
 use embedded_hal::blocking::i2c;
 
@@ -48,5 +48,23 @@ where
         self.i2c
             .write(self.address, &[Register::OFF_X, x as u8, y as u8, z as u8])
             .map_err(Error::I2C)
+    }
+
+    /// Set output data rate in WAKE mode
+    pub fn set_data_rate(&mut self, rate: OutputDataRate) -> Result<(), Error<E>> {
+        let bits = self.ctrl_reg1.bits & !(BitFlags::ODR0 | BitFlags::ODR1 | BitFlags::ODR2);
+        let mask = match rate {
+            OutputDataRate::Hz800 => 0,
+            OutputDataRate::Hz400 => BitFlags::ODR0,
+            OutputDataRate::Hz200 => BitFlags::ODR1,
+            OutputDataRate::Hz100 => BitFlags::ODR1 | BitFlags::ODR0,
+            OutputDataRate::Hz50 => BitFlags::ODR2,
+            OutputDataRate::Hz12_5 => BitFlags::ODR2 | BitFlags::ODR0,
+            OutputDataRate::Hz6_25 => BitFlags::ODR2 | BitFlags::ODR1,
+            OutputDataRate::Hz1_56 => BitFlags::ODR2 | BitFlags::ODR1 | BitFlags::ODR0,
+        };
+        self.write_reg(Register::CTRL_REG1, bits | mask)?;
+        self.ctrl_reg1 = Config { bits };
+        Ok(())
     }
 }

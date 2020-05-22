@@ -80,6 +80,27 @@ pub enum ReadMode {
     Fast,
 }
 
+/// Output data rate
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub enum OutputDataRate {
+    /// 800 Hz (default)
+    Hz800,
+    /// 400 Hz
+    Hz400,
+    /// 200 Hz
+    Hz200,
+    /// 100 Hz
+    Hz100,
+    /// 50 Hz
+    Hz50,
+    /// 12.5 Hz
+    Hz12_5,
+    /// 6.25 Hz
+    Hz6_25,
+    /// 1.56 Hz
+    Hz1_56,
+}
+
 /// Possible slave addresses
 #[derive(Debug, Clone, Copy)]
 pub enum SlaveAddr {

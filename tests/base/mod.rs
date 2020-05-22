@@ -14,6 +14,14 @@ impl Register {
     pub const OFF_X: u8 = 0x2F;
 }
 
+pub struct BitFlags;
+#[allow(unused)]
+impl BitFlags {
+    pub const ODR0: u8 = 1 << 3;
+    pub const ODR1: u8 = 1 << 4;
+    pub const ODR2: u8 = 1 << 5;
+}
+
 #[allow(unused)]
 pub fn new_mma8451(transactions: &[I2cTrans]) -> Mma8x5x<I2cMock, ic::Mma8451, mode::Standby> {
     Mma8x5x::new_mma8451(I2cMock::new(transactions), SlaveAddr::Alternative(true))

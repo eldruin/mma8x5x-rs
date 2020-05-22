@@ -1,8 +1,24 @@
 mod base;
 use crate::base::{
-    destroy, new_mma8451, new_mma8452, new_mma8453, new_mma8652, new_mma8653, Register, ADDRESS,
+    destroy, new_mma8451, new_mma8452, new_mma8453, new_mma8652, new_mma8653, BitFlags as BF,
+    Register, ADDRESS,
 };
 use embedded_hal_mock::i2c::Transaction as I2cTrans;
+use mma8x5x::OutputDataRate;
+
+macro_rules! set_odr_test {
+    ($name:ident, $create:ident, $variant:ident, $expected:expr) => {
+        #[test]
+        fn $name() {
+            let mut sensor = $create(&[I2cTrans::write(
+                ADDRESS,
+                vec![Register::CTRL_REG1, $expected],
+            )]);
+            sensor.set_data_rate(OutputDataRate::$variant).unwrap();
+            destroy(sensor);
+        }
+    };
+}
 
 macro_rules! tests {
     ($name:ident, $create:ident) => {
@@ -46,6 +62,20 @@ macro_rules! tests {
                 assert_eq!((127, -128, -1), offsets);
                 destroy(sensor);
             }
+
+            set_odr_test!(set_odr_800, $create, Hz800, 0);
+            set_odr_test!(set_odr_400, $create, Hz400, BF::ODR0);
+            set_odr_test!(set_odr_200, $create, Hz200, BF::ODR1);
+            set_odr_test!(set_odr_100, $create, Hz100, BF::ODR1 | BF::ODR0);
+            set_odr_test!(set_odr_50, $create, Hz50, BF::ODR2);
+            set_odr_test!(set_odr_12_5, $create, Hz12_5, BF::ODR2 | BF::ODR0);
+            set_odr_test!(set_odr_6_25, $create, Hz6_25, BF::ODR2 | BF::ODR1);
+            set_odr_test!(
+                set_odr_1_56,
+                $create,
+                Hz1_56,
+                BF::ODR2 | BF::ODR1 | BF::ODR0
+            );
         }
     };
 }
