@@ -22,6 +22,7 @@ impl BitFlags {
     pub const ODR2: u8 = 1 << 5;
     pub const MODS0: u8 = 1;
     pub const MODS1: u8 = 1 << 1;
+    pub const SLPE: u8 = 1 << 2;
     pub const SMODS0: u8 = 1 << 3;
     pub const SMODS1: u8 = 1 << 4;
 }

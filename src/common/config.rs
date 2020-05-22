@@ -95,4 +95,20 @@ where
         self.ctrl_reg2 = Config { bits };
         Ok(())
     }
+
+    /// Enable auto-sleep mode
+    pub fn enable_auto_sleep(&mut self) -> Result<(), Error<E>> {
+        let config = self.ctrl_reg2.with_high(BitFlags::SLPE);
+        self.write_reg(Register::CTRL_REG2, config.bits)?;
+        self.ctrl_reg2 = config;
+        Ok(())
+    }
+
+    /// Disable auto-sleep mode
+    pub fn disable_auto_sleep(&mut self) -> Result<(), Error<E>> {
+        let config = self.ctrl_reg2.with_low(BitFlags::SLPE);
+        self.write_reg(Register::CTRL_REG2, config.bits)?;
+        self.ctrl_reg2 = config;
+        Ok(())
+    }
 }

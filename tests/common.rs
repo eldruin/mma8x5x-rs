@@ -141,6 +141,21 @@ macro_rules! tests {
                 set_sleep_power_mode,
                 PowerMode::LowPower
             );
+
+            set_test!(
+                enable_auto_sleep,
+                $create,
+                CTRL_REG2,
+                BF::SLPE,
+                enable_auto_sleep
+            );
+            set_test!(
+                disable_auto_sleep,
+                $create,
+                CTRL_REG2,
+                0,
+                disable_auto_sleep
+            );
         }
     };
 }
