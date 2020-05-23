@@ -159,6 +159,15 @@ pub struct DataStatus {
     pub z_new_data: bool,
 }
 
+/// Portrait/landscape debounce counter mode
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub enum DebounceCounterMode {
+    /// Decrements debounce whenever the condition of interest is no longer valid.
+    Decrement,
+    /// Clears the counter whenever the condition of interest is no longer valid. (default)
+    Clear,
+}
+
 /// Possible slave addresses
 #[derive(Debug, Clone, Copy)]
 pub enum SlaveAddr {

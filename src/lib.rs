@@ -81,8 +81,9 @@ use core::marker::PhantomData;
 mod types;
 use crate::types::MMA845X_BASE_ADDR;
 pub use crate::types::{
-    ic, mode, AutoSleepDataRate, DataStatus, Error, GScale, Measurement, ModeChangeError,
-    OutputDataRate, PowerMode, ReadMode, SlaveAddr, SystemMode, UnscaledMeasurement,
+    ic, mode, AutoSleepDataRate, DataStatus, DebounceCounterMode, Error, GScale, Measurement,
+    ModeChangeError, OutputDataRate, PowerMode, ReadMode, SlaveAddr, SystemMode,
+    UnscaledMeasurement,
 };
 mod common;
 mod conversion;

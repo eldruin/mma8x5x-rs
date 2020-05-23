@@ -4,7 +4,7 @@ use crate::base::{
     Register, ADDRESS,
 };
 use embedded_hal_mock::i2c::Transaction as I2cTrans;
-use mma8x5x::{AutoSleepDataRate, OutputDataRate, PowerMode};
+use mma8x5x::{AutoSleepDataRate, DebounceCounterMode, OutputDataRate, PowerMode};
 
 macro_rules! set_odr_test {
     ($name:ident, $create:ident, $variant:ident, $expected:expr) => {
@@ -221,6 +221,23 @@ macro_rules! tests {
                 PL_CFG,
                 BF::DBCNTM,
                 disable_portrait_landscape_detection
+            );
+
+            set_test!(
+                set_debounce_counter_dec,
+                $create,
+                PL_CFG,
+                0,
+                set_debounce_counter_mode,
+                DebounceCounterMode::Decrement
+            );
+            set_test!(
+                set_debounce_counter_clear,
+                $create,
+                PL_CFG,
+                BF::DBCNTM,
+                set_debounce_counter_mode,
+                DebounceCounterMode::Clear
             );
         }
     };

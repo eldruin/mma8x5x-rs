@@ -1,7 +1,8 @@
 use crate::{
     mode,
     register_access::{BitFlags, Register},
-    AutoSleepDataRate, Config, Error, GScale, Mma8x5x, OutputDataRate, PowerMode, ReadMode,
+    AutoSleepDataRate, Config, DebounceCounterMode, Error, GScale, Mma8x5x, OutputDataRate,
+    PowerMode, ReadMode,
 };
 use embedded_hal::blocking::i2c;
 
@@ -142,6 +143,17 @@ where
     /// Disable portrait/landscape detection
     pub fn disable_portrait_landscape_detection(&mut self) -> Result<(), Error<E>> {
         let config = self.pl_cfg.with_low(BitFlags::PL_EN);
+        self.write_reg(Register::PL_CFG, config.bits)?;
+        self.pl_cfg = config;
+        Ok(())
+    }
+
+    /// Set portrait/landscape debounce counter mode
+    pub fn set_debounce_counter_mode(&mut self, mode: DebounceCounterMode) -> Result<(), Error<E>> {
+        let config = match mode {
+            DebounceCounterMode::Decrement => self.pl_cfg.with_low(BitFlags::DBCNTM),
+            DebounceCounterMode::Clear => self.pl_cfg.with_high(BitFlags::DBCNTM),
+        };
         self.write_reg(Register::PL_CFG, config.bits)?;
         self.pl_cfg = config;
         Ok(())
