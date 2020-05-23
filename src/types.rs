@@ -168,6 +168,53 @@ pub enum DebounceCounterMode {
     Clear,
 }
 
+/// Current portrait/landscape status
+#[derive(Debug, Default, Clone, Copy, PartialEq)]
+pub struct PortraitLandscapeStatus {
+    /// True if any of the other fields changed
+    pub something_changed: bool,
+    /// Z-tilt angle lookout detected
+    pub z_tilt_angle_lookout: bool,
+    /// Portrait/Landscape orientation
+    pub portrait_landscape: PortraitLandscapeOrientation,
+    /// Front/Back orientation
+    pub front_back: FrontBackOrientation,
+}
+
+/// Portrait/Landscape orientation
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub enum PortraitLandscapeOrientation {
+    /// Equipment is standing vertically in the normal orientation (default)
+    PortraitUp,
+    /// Equipment is standing vertically in the inverted orientation
+    PortraitDown,
+    /// Equipment is standing in landscape mode to the right
+    LandscapeRight,
+    /// Equipment is standing in landscape mode to the left
+    LandscapeLeft,
+}
+
+impl Default for PortraitLandscapeOrientation {
+    fn default() -> Self {
+        PortraitLandscapeOrientation::PortraitUp
+    }
+}
+
+/// Front/Back orientation
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub enum FrontBackOrientation {
+    /// Equipment is in front-facing orientation (default)
+    Front,
+    /// Equipment is in back-facing orientation
+    Back,
+}
+
+impl Default for FrontBackOrientation {
+    fn default() -> Self {
+        FrontBackOrientation::Front
+    }
+}
+
 /// Possible slave addresses
 #[derive(Debug, Clone, Copy)]
 pub enum SlaveAddr {

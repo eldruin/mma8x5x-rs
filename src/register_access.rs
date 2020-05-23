@@ -10,6 +10,7 @@ impl Register {
     pub const XYZ_DATA_CFG: u8 = 0x0E;
     pub const PL_CFG: u8 = 0x11;
     pub const PL_COUNT: u8 = 0x12;
+    pub const PL_STATUS: u8 = 0x10;
     pub const ASLP_COUNT: u8 = 0x29;
     pub const CTRL_REG1: u8 = 0x2A;
     pub const CTRL_REG2: u8 = 0x2B;
@@ -18,15 +19,18 @@ impl Register {
 
 pub struct BitFlags;
 impl BitFlags {
-    pub const FS1: u8 = 1 << 1;
     pub const FS0: u8 = 1;
+    pub const FS1: u8 = 1 << 1;
+
     pub const ACTIVE: u8 = 1;
     pub const F_READ: u8 = 1 << 1;
     pub const ASLP_RATE0: u8 = 1 << 6;
     pub const ASLP_RATE1: u8 = 1 << 7;
+
     pub const ODR0: u8 = 1 << 3;
     pub const ODR1: u8 = 1 << 4;
     pub const ODR2: u8 = 1 << 5;
+
     pub const MODS0: u8 = 1;
     pub const MODS1: u8 = 1 << 1;
     pub const SLPE: u8 = 1 << 2;
@@ -34,6 +38,7 @@ impl BitFlags {
     pub const SMODS1: u8 = 1 << 4;
     pub const RST: u8 = 1 << 6;
     pub const ST: u8 = 1 << 7;
+
     pub const XDR: u8 = 1;
     pub const YDR: u8 = 1 << 1;
     pub const ZDR: u8 = 1 << 2;
@@ -44,6 +49,12 @@ impl BitFlags {
     pub const XYZOW: u8 = 1 << 7;
     pub const PL_EN: u8 = 1 << 6;
     pub const DBCNTM: u8 = 1 << 7;
+
+    pub const BAFRO: u8 = 1;
+    pub const LAPO0: u8 = 1 << 1;
+    pub const LAPO1: u8 = 1 << 2;
+    pub const LO: u8 = 1 << 6;
+    pub const NEWLP: u8 = 1 << 7;
 }
 
 impl<E, I2C, IC, MODE> Mma8x5x<I2C, IC, MODE>
