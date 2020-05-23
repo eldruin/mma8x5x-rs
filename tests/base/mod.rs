@@ -13,6 +13,7 @@ impl Register {
     pub const WHO_AM_I: u8 = 0x0D;
     pub const XYZ_DATA_CFG: u8 = 0x0E;
     pub const PL_CFG: u8 = 0x11;
+    pub const PL_COUNT: u8 = 0x12;
     pub const ASLP_COUNT: u8 = 0x29;
     pub const CTRL_REG1: u8 = 0x2A;
     pub const CTRL_REG2: u8 = 0x2B;

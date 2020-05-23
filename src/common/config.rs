@@ -1,5 +1,5 @@
 use crate::{
-    mode,
+    ic, mode,
     register_access::{BitFlags, Register},
     AutoSleepDataRate, Config, DebounceCounterMode, Error, GScale, Mma8x5x, OutputDataRate,
     PowerMode, ReadMode,
@@ -159,6 +159,11 @@ where
         Ok(())
     }
 
+    /// Set portrait/landscape debounce counter
+    pub fn set_debounce_counter(&mut self, counter: u8) -> Result<(), Error<E>> {
+        self.set_debounce_counter_internal(counter)
+    }
+
     /// Reset device
     pub fn reset(&mut self) -> Result<(), Error<E>> {
         self.reset_internal()
@@ -196,4 +201,26 @@ where
         self.xyz_data_cfg = Config::default();
         Ok(())
     }
+
+    pub(crate) fn set_debounce_counter_internal(&mut self, counter: u8) -> Result<(), Error<E>> {
+        self.write_reg(Register::PL_COUNT, counter)
+    }
 }
+
+macro_rules! set_allowed_in_active_mode {
+    ($ic:ident) => {
+        impl<E, I2C> Mma8x5x<I2C, ic::$ic, mode::Active>
+        where
+            I2C: i2c::WriteRead<Error = E> + i2c::Write<Error = E>,
+        {
+            /// Set portrait/landscape debounce counter
+            pub fn set_debounce_counter(&mut self, counter: u8) -> Result<(), Error<E>> {
+                self.set_debounce_counter_internal(counter)
+            }
+        }
+    };
+}
+
+// Only these two models allow changing these registers in active mode
+set_allowed_in_active_mode!(Mma8451);
+set_allowed_in_active_mode!(Mma8652);

@@ -239,6 +239,14 @@ macro_rules! tests {
                 set_debounce_counter_mode,
                 DebounceCounterMode::Clear
             );
+            set_test!(
+                set_debounce_counter,
+                $create,
+                PL_COUNT,
+                0xAB,
+                set_debounce_counter,
+                0xAB
+            );
         }
     };
 }
