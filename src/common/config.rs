@@ -131,6 +131,22 @@ where
         self.write_reg(Register::ASLP_COUNT, count)
     }
 
+    /// Enable portrait/landscape detection
+    pub fn enable_portrait_landscape_detection(&mut self) -> Result<(), Error<E>> {
+        let config = self.pl_cfg.with_high(BitFlags::PL_EN);
+        self.write_reg(Register::PL_CFG, config.bits)?;
+        self.pl_cfg = config;
+        Ok(())
+    }
+
+    /// Disable portrait/landscape detection
+    pub fn disable_portrait_landscape_detection(&mut self) -> Result<(), Error<E>> {
+        let config = self.pl_cfg.with_low(BitFlags::PL_EN);
+        self.write_reg(Register::PL_CFG, config.bits)?;
+        self.pl_cfg = config;
+        Ok(())
+    }
+
     /// Reset device
     pub fn reset(&mut self) -> Result<(), Error<E>> {
         self.reset_internal()
@@ -162,6 +178,9 @@ where
         self.write_reg(Register::CTRL_REG2, config.bits)?;
         self.ctrl_reg1 = Config::default();
         self.ctrl_reg2 = Config::default();
+        self.pl_cfg = Config {
+            bits: BitFlags::DBCNTM,
+        };
         self.xyz_data_cfg = Config::default();
         Ok(())
     }

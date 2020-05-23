@@ -12,6 +12,7 @@ impl Register {
     pub const SYSMOD: u8 = 0x0B;
     pub const WHO_AM_I: u8 = 0x0D;
     pub const XYZ_DATA_CFG: u8 = 0x0E;
+    pub const PL_CFG: u8 = 0x11;
     pub const ASLP_COUNT: u8 = 0x29;
     pub const CTRL_REG1: u8 = 0x2A;
     pub const CTRL_REG2: u8 = 0x2B;
@@ -41,6 +42,8 @@ impl BitFlags {
     pub const YOW: u8 = 1 << 5;
     pub const ZOW: u8 = 1 << 6;
     pub const XYZOW: u8 = 1 << 7;
+    pub const PL_EN: u8 = 1 << 6;
+    pub const DBCNTM: u8 = 1 << 7;
 }
 
 #[allow(unused)]

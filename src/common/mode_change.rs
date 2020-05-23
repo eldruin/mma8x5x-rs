@@ -1,7 +1,7 @@
 use crate::{
     mode,
     register_access::{BitFlags, Register},
-    Mma8x5x, ModeChangeError,
+    Config, Mma8x5x, ModeChangeError,
 };
 use core::marker::PhantomData;
 use embedded_hal::blocking::i2c;
@@ -20,6 +20,7 @@ where
                 address: self.address,
                 ctrl_reg1: config,
                 ctrl_reg2: self.ctrl_reg2,
+                pl_cfg: self.pl_cfg,
                 xyz_data_cfg: self.xyz_data_cfg,
                 _ic: PhantomData,
                 _mode: PhantomData,
@@ -42,6 +43,7 @@ where
                 address: self.address,
                 ctrl_reg1: config,
                 ctrl_reg2: self.ctrl_reg2,
+                pl_cfg: self.pl_cfg,
                 xyz_data_cfg: self.xyz_data_cfg,
                 _ic: PhantomData,
                 _mode: PhantomData,
@@ -56,9 +58,12 @@ where
             Ok(_) => Ok(Mma8x5x {
                 i2c: self.i2c,
                 address: self.address,
-                ctrl_reg1: self.ctrl_reg1,
-                ctrl_reg2: self.ctrl_reg2,
-                xyz_data_cfg: self.xyz_data_cfg,
+                ctrl_reg1: Config::default(),
+                ctrl_reg2: Config::default(),
+                pl_cfg: Config {
+                    bits: BitFlags::DBCNTM,
+                },
+                xyz_data_cfg: Config::default(),
                 _ic: PhantomData,
                 _mode: PhantomData,
             }),

@@ -207,6 +207,21 @@ macro_rules! tests {
                 enable_self_test
             );
             set_test!(disable_self_test, $create, CTRL_REG2, 0, disable_self_test);
+
+            set_test!(
+                enable_pl,
+                $create,
+                PL_CFG,
+                BF::PL_EN | BF::DBCNTM,
+                enable_portrait_landscape_detection
+            );
+            set_test!(
+                disable_pl,
+                $create,
+                PL_CFG,
+                BF::DBCNTM,
+                disable_portrait_landscape_detection
+            );
         }
     };
 }

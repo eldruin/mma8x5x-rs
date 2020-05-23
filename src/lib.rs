@@ -98,6 +98,7 @@ pub struct Mma8x5x<I2C, IC, MODE> {
     address: u8,
     ctrl_reg1: Config,
     ctrl_reg2: Config,
+    pl_cfg: Config,
     xyz_data_cfg: Config,
     _ic: PhantomData<IC>,
     _mode: PhantomData<MODE>,
