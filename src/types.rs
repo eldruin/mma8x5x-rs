@@ -215,6 +215,25 @@ impl Default for FrontBackOrientation {
     }
 }
 
+/// Current interrupt status
+#[derive(Debug, Default, Clone, Copy, PartialEq)]
+pub struct InterruptStatus {
+    /// Auto-sleep/wake interrupt occurred
+    pub auto_sleep: bool,
+    /// FIFO interrupt occurred
+    pub fifo: bool,
+    /// Acceleration transient value greater than user specified threshold has occurred
+    pub transient: bool,
+    /// Portrait/landscape orientation interrupt occurred
+    pub portrait_landscape: bool,
+    /// Single and/or double pulse interrupt occurred
+    pub pulse: bool,
+    /// Freefall/motion interrupt occurred
+    pub freefall_motion: bool,
+    /// New data ready and/or data overrun interrupt occurred
+    pub data_ready: bool,
+}
+
 /// Possible slave addresses
 #[derive(Debug, Clone, Copy)]
 pub enum SlaveAddr {

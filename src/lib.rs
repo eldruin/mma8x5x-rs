@@ -82,8 +82,9 @@ mod types;
 use crate::types::MMA845X_BASE_ADDR;
 pub use crate::types::{
     ic, mode, AutoSleepDataRate, DataStatus, DebounceCounterMode, Error, FrontBackOrientation,
-    GScale, Measurement, ModeChangeError, OutputDataRate, PortraitLandscapeOrientation,
-    PortraitLandscapeStatus, PowerMode, ReadMode, SlaveAddr, SystemMode, UnscaledMeasurement,
+    GScale, InterruptStatus, Measurement, ModeChangeError, OutputDataRate,
+    PortraitLandscapeOrientation, PortraitLandscapeStatus, PowerMode, ReadMode, SlaveAddr,
+    SystemMode, UnscaledMeasurement,
 };
 mod common;
 mod conversion;

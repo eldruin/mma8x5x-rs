@@ -10,6 +10,7 @@ impl Register {
     pub const STATUS: u8 = 0x00;
     pub const OUT_X_H: u8 = 0x01;
     pub const SYSMOD: u8 = 0x0B;
+    pub const INT_SOURCE: u8 = 0x0C;
     pub const WHO_AM_I: u8 = 0x0D;
     pub const XYZ_DATA_CFG: u8 = 0x0E;
     pub const PL_CFG: u8 = 0x11;
@@ -47,13 +48,23 @@ impl BitFlags {
     pub const YOW: u8 = 1 << 5;
     pub const ZOW: u8 = 1 << 6;
     pub const XYZOW: u8 = 1 << 7;
+
     pub const PL_EN: u8 = 1 << 6;
     pub const DBCNTM: u8 = 1 << 7;
+
     pub const BAFRO: u8 = 1;
     pub const LAPO0: u8 = 1 << 1;
     pub const LAPO1: u8 = 1 << 2;
     pub const LO: u8 = 1 << 6;
     pub const NEWLP: u8 = 1 << 7;
+
+    pub const SRC_DRDY: u8 = 1;
+    pub const SRC_FF_MT: u8 = 1 << 2;
+    pub const SRC_PULSE: u8 = 1 << 3;
+    pub const SRC_LNDPRT: u8 = 1 << 4;
+    pub const SRC_TRANS: u8 = 1 << 5;
+    pub const SRC_FIFO: u8 = 1 << 6;
+    pub const SRC_ASLP: u8 = 1 << 7;
 }
 
 #[allow(unused)]

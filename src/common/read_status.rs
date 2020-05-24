@@ -2,8 +2,8 @@
 
 use crate::{
     register_access::{BitFlags as BF, Register},
-    DataStatus, Error, FrontBackOrientation, Mma8x5x, PortraitLandscapeOrientation,
-    PortraitLandscapeStatus, SystemMode,
+    DataStatus, Error, FrontBackOrientation, InterruptStatus, Mma8x5x,
+    PortraitLandscapeOrientation, PortraitLandscapeStatus, SystemMode,
 };
 use embedded_hal::blocking::i2c;
 
@@ -41,6 +41,12 @@ where
         let st = self.read_reg(Register::PL_STATUS)?;
         Ok(get_pl_status(st))
     }
+
+    /// Read current interrupt status
+    pub fn interrupt_status(&mut self) -> Result<InterruptStatus, Error<E>> {
+        let int_src = self.read_reg(Register::INT_SOURCE)?;
+        Ok(get_interrupt_status(int_src))
+    }
 }
 
 fn get_pl_status(pl_status: u8) -> PortraitLandscapeStatus {
@@ -60,6 +66,18 @@ fn get_pl_status(pl_status: u8) -> PortraitLandscapeStatus {
         z_tilt_angle_lookout: (pl_status & BF::LO) != 0,
         portrait_landscape: pl,
         front_back: fb,
+    }
+}
+
+fn get_interrupt_status(int_src: u8) -> InterruptStatus {
+    InterruptStatus {
+        auto_sleep: (int_src & BF::SRC_ASLP) != 0,
+        fifo: (int_src & BF::SRC_FIFO) != 0,
+        transient: (int_src & BF::SRC_TRANS) != 0,
+        portrait_landscape: (int_src & BF::SRC_LNDPRT) != 0,
+        pulse: (int_src & BF::SRC_PULSE) != 0,
+        freefall_motion: (int_src & BF::SRC_FF_MT) != 0,
+        data_ready: (int_src & BF::SRC_DRDY) != 0,
     }
 }
 
@@ -144,5 +162,75 @@ mod tests {
             },
             get_pl_status(BF::LAPO1 | BF::LAPO0)
         );
+    }
+
+    mod int_status {
+        use super::*;
+        #[test]
+        fn int_status_default() {
+            assert_eq!(InterruptStatus::default(), get_interrupt_status(0));
+        }
+
+        #[test]
+        fn int_status_unaffected_by_others() {
+            assert_eq!(
+                InterruptStatus::default(),
+                get_interrupt_status(
+                    !(BF::SRC_ASLP
+                        | BF::SRC_DRDY
+                        | BF::SRC_FF_MT
+                        | BF::SRC_FIFO
+                        | BF::SRC_LNDPRT
+                        | BF::SRC_PULSE
+                        | BF::SRC_TRANS)
+                )
+            );
+        }
+
+        #[test]
+        fn int_status_all() {
+            assert_eq!(
+                InterruptStatus {
+                    auto_sleep: true,
+                    fifo: true,
+                    transient: true,
+                    portrait_landscape: true,
+                    pulse: true,
+                    freefall_motion: true,
+                    data_ready: true
+                },
+                get_interrupt_status(
+                    BF::SRC_ASLP
+                        | BF::SRC_DRDY
+                        | BF::SRC_FF_MT
+                        | BF::SRC_FIFO
+                        | BF::SRC_LNDPRT
+                        | BF::SRC_PULSE
+                        | BF::SRC_TRANS
+                )
+            );
+        }
+
+        macro_rules! int_status_test {
+            ($name:ident, $bit_flag:ident) => {
+                #[test]
+                fn $name() {
+                    assert_eq!(
+                        InterruptStatus {
+                            $name: true,
+                            ..InterruptStatus::default()
+                        },
+                        get_interrupt_status(BF::$bit_flag)
+                    );
+                }
+            };
+        }
+        int_status_test!(auto_sleep, SRC_ASLP);
+        int_status_test!(fifo, SRC_FIFO);
+        int_status_test!(transient, SRC_TRANS);
+        int_status_test!(portrait_landscape, SRC_LNDPRT);
+        int_status_test!(pulse, SRC_PULSE);
+        int_status_test!(freefall_motion, SRC_FF_MT);
+        int_status_test!(data_ready, SRC_DRDY);
     }
 }
