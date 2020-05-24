@@ -1,8 +1,8 @@
 use crate::{
     ic, mode,
     register_access::{BitFlags, Register},
-    AutoSleepDataRate, Config, DebounceCounterMode, Error, GScale, InterruptPinPolarity, Mma8x5x,
-    OutputDataRate, PowerMode, ReadMode,
+    AutoSleepDataRate, Config, DebounceCounterMode, Error, GScale, InterruptPinConfiguration,
+    InterruptPinPolarity, Mma8x5x, OutputDataRate, PowerMode, ReadMode,
 };
 use embedded_hal::blocking::i2c;
 
@@ -172,6 +172,20 @@ where
         let config = match polarity {
             InterruptPinPolarity::ActiveLow => self.ctrl_reg3.with_low(BitFlags::IPOL),
             InterruptPinPolarity::ActiveHigh => self.ctrl_reg3.with_high(BitFlags::IPOL),
+        };
+        self.write_reg(Register::CTRL_REG3, config.bits)?;
+        self.ctrl_reg3 = config;
+        Ok(())
+    }
+
+    /// Set interrupt pin configuration
+    pub fn set_interrupt_pin_configuration(
+        &mut self,
+        configuration: InterruptPinConfiguration,
+    ) -> Result<(), Error<E>> {
+        let config = match configuration {
+            InterruptPinConfiguration::PushPull => self.ctrl_reg3.with_low(BitFlags::PP_OD),
+            InterruptPinConfiguration::OpenDrain => self.ctrl_reg3.with_high(BitFlags::PP_OD),
         };
         self.write_reg(Register::CTRL_REG3, config.bits)?;
         self.ctrl_reg3 = config;

@@ -243,6 +243,15 @@ pub enum InterruptPinPolarity {
     ActiveHigh,
 }
 
+/// Physical interrupt pin configuration
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub enum InterruptPinConfiguration {
+    /// Push-pull configuration (default)
+    PushPull,
+    /// Open drain configuration
+    OpenDrain,
+}
+
 /// Possible slave addresses
 #[derive(Debug, Clone, Copy)]
 pub enum SlaveAddr {

@@ -67,6 +67,7 @@ impl BitFlags {
     pub const SRC_FIFO: u8 = 1 << 6;
     pub const SRC_ASLP: u8 = 1 << 7;
 
+    pub const PP_OD: u8 = 1;
     pub const IPOL: u8 = 1 << 1;
 }
 

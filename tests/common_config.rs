@@ -5,7 +5,8 @@ use crate::base::{
 };
 use embedded_hal_mock::i2c::Transaction as I2cTrans;
 use mma8x5x::{
-    AutoSleepDataRate, DebounceCounterMode, InterruptPinPolarity, OutputDataRate, PowerMode,
+    AutoSleepDataRate, DebounceCounterMode, InterruptPinConfiguration, InterruptPinPolarity,
+    OutputDataRate, PowerMode,
 };
 
 macro_rules! set_odr_test {
@@ -265,6 +266,23 @@ macro_rules! tests {
                 BF::IPOL,
                 set_interrupt_pin_polarity,
                 InterruptPinPolarity::ActiveHigh
+            );
+
+            set_test!(
+                set_int_pin_config_push_pull,
+                $create,
+                CTRL_REG3,
+                0,
+                set_interrupt_pin_configuration,
+                InterruptPinConfiguration::PushPull
+            );
+            set_test!(
+                set_int_pin_config_open_drain,
+                $create,
+                CTRL_REG3,
+                BF::PP_OD,
+                set_interrupt_pin_configuration,
+                InterruptPinConfiguration::OpenDrain
             );
         }
     };
