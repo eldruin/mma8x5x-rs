@@ -2,15 +2,13 @@
 
 use crate::{
     conversion::{convert_10bit, convert_12bit, convert_14bit},
-    ic,
+    ic, mode,
     register_access::{BitFlags, Register},
     Error, Measurement, Mma8x5x, UnscaledMeasurement,
 };
 use embedded_hal::blocking::i2c;
 
-// The only reason reading is not limited to active mode is so that
-// data can also be read during self-test mode.
-impl<E, I2C, IC, MODE> Mma8x5x<I2C, IC, MODE>
+impl<E, I2C, IC> Mma8x5x<I2C, IC, mode::Active>
 where
     I2C: i2c::WriteRead<Error = E> + i2c::Write<Error = E>,
 {
@@ -57,7 +55,7 @@ fn scale(unscaled: UnscaledMeasurement, max: f32) -> Measurement {
 
 macro_rules! read_impl {
     ($ic:ident, $converter:ident, $max:expr) => {
-        impl<E, I2C, MODE> Mma8x5x<I2C, ic::$ic, MODE>
+        impl<E, I2C> Mma8x5x<I2C, ic::$ic, mode::Active>
         where
             I2C: i2c::WriteRead<Error = E> + i2c::Write<Error = E>,
         {
