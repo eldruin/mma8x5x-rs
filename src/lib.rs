@@ -3,10 +3,64 @@
 //!
 //! [`embedded-hal`]: https://github.com/rust-embedded/embedded-hal
 //!
-//! <!-- TODO
 //! This driver allows you to:
-//! -->
+//! - Change mode to active/standby. See: [`into_active()`].
+//! - Read raw unscaled measurement. See: [`read_unscaled()`].
+//! - Read measurement. See: [`read()`].
+//! - Read data status. See: [`data_status()`].
+//! - Read system operating mode. See: [`system_mode()`].
+//! - Set G scale. See: [`set_scale()`].
+//! - Set data rate. See [`set_data_rate()`].
+//! - Set wake power mode. See [`set_wake_power_mode()`].
+//! - Set sleep power mode. See [`set_sleep_power_mode()`].
+//! - Set read mode. See: [`set_read_mode()`].
+//! - Set offset correction. See: [`set_offset_correction()`].
+//! - Read the device ID. See: [`device_id()`].
+//! - Reset device. See: [`reset()`].
+//! - Enable/disable self-test mode. See: [`enable_self_test()`].
+//! - Auto-sleep/wake:
+//!     - Enable/disable auto-sleep/wake. See: [`enable_auto_sleep()`].
+//!     - Set auto-sleep data rate. See: [`set_auto_sleep_data_rate()`].
+//!     - Set auto-sleep count. See: [`set_auto_sleep_count()`].
+//! - Portrait/Landscape detection:
+//!     - Enable/disable portrait/landscape detection. See: [`enable_portrait_landscape_detection()`].
+//!     - Set debounce counter mode. See: [`set_debounce_counter_mode()`].
+//!     - Set debounce counter. See: [`set_debounce_counter()`].
+//!     - Read portrait/landscape status. See: [`portrait_landscape_status()`].
+//! - Interrupts:
+//!     - Enable/disable interrupts. See: [`set_enabled_interrupts()`].
+//!     - Set interrupt pin routes. See: [`set_interrupt_pin_routes()`].
+//!     - Set interrupt pin polarity. See: [`set_interrupt_pin_polarity()`].
+//!     - Set interrupt pin configuration. See: [`set_interrupt_pin_configuration()`].
+//!     - Read interrupt status. See: [`interrupt_status()`].
 //!
+//! [`into_active()`]: struct.Mma8x5x.html#method.into_active
+//! [`read_unscaled()`]: struct.Mma8x5x.html#method.read_unscaled
+//! [`read()`]: struct.Mma8x5x.html#method.read
+//! [`data_status()`]: struct.Mma8x5x.html#method.data_status
+//! [`system_mode()`]: struct.Mma8x5x.html#method.system_mode
+//! [`set_scale()`]: struct.Mma8x5x.html#method.set_scale
+//! [`set_data_rate()`]: struct.Mma8x5x.html#method.set_data_rate
+//! [`set_wake_power_mode()`]: struct.Mma8x5x.html#method.set_wake_power_mode
+//! [`set_sleep_power_mode()`]: struct.Mma8x5x.html#method.set_sleep_power_mode
+//! [`set_read_mode()`]: struct.Mma8x5x.html#method.set_read_mode
+//! [`set_offset_correction()`]: struct.Mma8x5x.html#method.set_offset_correction
+//! [`device_id()`]: struct.Mma8x5x.html#method.device_id
+//! [`reset()`]: struct.Mma8x5x.html#method.reset
+//! [`enable_self_test()`]: struct.Mma8x5x.html#method.enable_self_test
+//! [`enable_auto_sleep()`]: struct.Mma8x5x.html#method.enable_auto_sleep
+//! [`set_auto_sleep_data_rate()`]: struct.Mma8x5x.html#method.set_auto_sleep_data_rate
+//! [`set_auto_sleep_count()`]: struct.Mma8x5x.html#method.set_auto_sleep_count
+//! [`enable_portrait_landscape_detection()`]: struct.Mma8x5x.html#method.enable_portrait_landscape_detection
+//! [`set_debounce_counter_mode()`]: struct.Mma8x5x.html#method.set_debounce_counter_mode
+//! [`set_debounce_counter()`]: struct.Mma8x5x.html#method.set_debounce_counter
+//! [`portrait_landscape_status()`]: struct.Mma8x5x.html#method.portrait_landscape_status
+//! [`set_enabled_interrupts()`]: struct.Mma8x5x.html#method.set_enabled_interrupts
+//! [`set_interrupt_pin_routes()`]: struct.Mma8x5x.html#method.set_interrupt_pin_routes
+//! [`set_interrupt_pin_polarity()`]: struct.Mma8x5x.html#method.set_interrupt_pin_polarity
+//! [`set_interrupt_pin_configuration()`]: struct.Mma8x5x.html#method.set_interrupt_pin_configuration
+//! [`interrupt_status()`]: struct.Mma8x5x.html#method.interrupt_status
+//! 
 //! <!-- TODO
 //! [Introductory blog post](TODO)
 //! -->
