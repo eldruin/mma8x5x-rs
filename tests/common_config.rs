@@ -38,8 +38,8 @@ macro_rules! tests {
                     I2cTrans::write(ADDRESS, vec![Register::CTRL_REG1, 1]),
                     I2cTrans::write(ADDRESS, vec![Register::CTRL_REG1, 0]),
                 ]);
-                let sensor = sensor.active().ok().unwrap();
-                let sensor = sensor.standby().ok().unwrap();
+                let sensor = sensor.into_active().ok().unwrap();
+                let sensor = sensor.into_standby().ok().unwrap();
                 destroy(sensor);
             }
 
@@ -197,7 +197,7 @@ macro_rules! tests {
                     I2cTrans::write(ADDRESS, vec![Register::CTRL_REG1, 1]),
                     I2cTrans::write(ADDRESS, vec![Register::CTRL_REG2, BF::RST]),
                 ]);
-                let sensor = sensor.active().ok().unwrap();
+                let sensor = sensor.into_active().ok().unwrap();
                 let sensor = sensor.reset().ok().unwrap();
                 destroy(sensor);
             }

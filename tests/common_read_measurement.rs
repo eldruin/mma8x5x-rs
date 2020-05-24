@@ -24,7 +24,7 @@ macro_rules! set_scale_read_test {
                 z: f32::from(0x43C0_u16 >> $bit_shift) / ($max / $g),
             };
             sensor.set_scale(GScale::$gscale).unwrap();
-            let mut sensor = sensor.active().ok().unwrap();
+            let mut sensor = sensor.into_active().ok().unwrap();
             let m = sensor.read().unwrap();
             assert_near!(m.x, expected.x, 0.01);
             assert_near!(m.y, expected.y, 0.01);
@@ -54,7 +54,7 @@ macro_rules! read_tests {
                     y: 0x4280 >> $bit_shift,
                     z: 0x43C0 >> $bit_shift,
                 };
-                let mut sensor = sensor.active().ok().unwrap();
+                let mut sensor = sensor.into_active().ok().unwrap();
                 assert_eq!(expected, sensor.read_unscaled().unwrap());
                 destroy(sensor);
             }
@@ -74,7 +74,7 @@ macro_rules! read_tests {
                     y: f32::from(0x4280_u16 >> $bit_shift) / ($max / 2.0),
                     z: f32::from(0x43C0_u16 >> $bit_shift) / ($max / 2.0),
                 };
-                let mut sensor = sensor.active().ok().unwrap();
+                let mut sensor = sensor.into_active().ok().unwrap();
                 let m = sensor.read().unwrap();
                 assert_near!(m.x, expected.x, 0.01);
                 assert_near!(m.y, expected.y, 0.01);
@@ -95,7 +95,7 @@ macro_rules! read_tests {
                     z: 0x4300 >> $bit_shift,
                 };
                 sensor.set_read_mode(ReadMode::Fast).unwrap();
-                let mut sensor = sensor.active().ok().unwrap();
+                let mut sensor = sensor.into_active().ok().unwrap();
                 assert_eq!(expected, sensor.read_unscaled().unwrap());
                 destroy(sensor);
             }

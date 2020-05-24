@@ -13,7 +13,7 @@ macro_rules! tests {
                     I2cTrans::write(ADDRESS, vec![Register::CTRL_REG1, 1]),
                     I2cTrans::write(ADDRESS, vec![Register::PL_COUNT, 0xAB]),
                 ]);
-                let mut sensor = sensor.active().ok().unwrap();
+                let mut sensor = sensor.into_active().ok().unwrap();
                 sensor.set_debounce_counter(0xAB).unwrap();
                 destroy(sensor);
             }

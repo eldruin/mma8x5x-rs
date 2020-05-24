@@ -11,7 +11,9 @@ where
     I2C: i2c::WriteRead<Error = E> + i2c::Write<Error = E>,
 {
     /// Change mode to active
-    pub fn active(mut self) -> Result<Mma8x5x<I2C, IC, mode::Active>, ModeChangeError<E, Self>> {
+    pub fn into_active(
+        mut self,
+    ) -> Result<Mma8x5x<I2C, IC, mode::Active>, ModeChangeError<E, Self>> {
         let config = self.ctrl_reg1.with_high(BitFlags::ACTIVE);
         match self.write_reg(Register::CTRL_REG1, config.bits) {
             Err(error) => Err(ModeChangeError { error, dev: self }),
@@ -35,7 +37,9 @@ where
     I2C: i2c::WriteRead<Error = E> + i2c::Write<Error = E>,
 {
     /// Change mode to standby
-    pub fn standby(mut self) -> Result<Mma8x5x<I2C, IC, mode::Standby>, ModeChangeError<E, Self>> {
+    pub fn into_standby(
+        mut self,
+    ) -> Result<Mma8x5x<I2C, IC, mode::Standby>, ModeChangeError<E, Self>> {
         let config = self.ctrl_reg1.with_low(BitFlags::ACTIVE);
         match self.write_reg(Register::CTRL_REG1, config.bits) {
             Err(error) => Err(ModeChangeError { error, dev: self }),
