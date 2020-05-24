@@ -234,6 +234,27 @@ pub struct InterruptStatus {
     pub data_ready: bool,
 }
 
+/// Interrupt source enable/disable
+///
+/// Unavailable interrupt sources on a device are ignored.
+#[derive(Debug, Default, Clone, Copy, PartialEq)]
+pub struct EnabledInterrupts {
+    /// Auto-sleep/wake interrupt enabled
+    pub auto_sleep: bool,
+    /// FIFO interrupt enabled
+    pub fifo: bool,
+    /// Acceleration transient interrupt enabled
+    pub transient: bool,
+    /// Portrait/landscape orientation interrupt enabled
+    pub portrait_landscape: bool,
+    /// Single and/or double pulse detection interrupt enabled
+    pub pulse: bool,
+    /// Freefall/motion interrupt enabled
+    pub freefall_motion: bool,
+    /// Data ready interrupt enabled
+    pub data_ready: bool,
+}
+
 /// Physical interrupt pin polarity
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub enum InterruptPinPolarity {

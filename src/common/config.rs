@@ -1,8 +1,8 @@
 use crate::{
     ic, mode,
     register_access::{BitFlags, Register},
-    AutoSleepDataRate, Config, DebounceCounterMode, Error, GScale, InterruptPinConfiguration,
-    InterruptPinPolarity, Mma8x5x, OutputDataRate, PowerMode, ReadMode,
+    AutoSleepDataRate, Config, DebounceCounterMode, EnabledInterrupts, Error, GScale,
+    InterruptPinConfiguration, InterruptPinPolarity, Mma8x5x, OutputDataRate, PowerMode, ReadMode,
 };
 use embedded_hal::blocking::i2c;
 
@@ -192,6 +192,11 @@ where
         Ok(())
     }
 
+    /// Set enabled interrupts
+    pub fn set_enabled_interrupts(&mut self, enabled: EnabledInterrupts) -> Result<(), Error<E>> {
+        self.write_reg(Register::CTRL_REG4, get_enabled_int_reg(enabled))
+    }
+
     /// Reset device
     pub fn reset(&mut self) -> Result<(), Error<E>> {
         self.reset_internal()
@@ -253,3 +258,88 @@ macro_rules! set_allowed_in_active_mode {
 // Only these two models allow changing these registers in active mode
 set_allowed_in_active_mode!(Mma8451);
 set_allowed_in_active_mode!(Mma8652);
+
+fn get_enabled_int_reg(en_int: EnabledInterrupts) -> u8 {
+    0 | if en_int.auto_sleep {
+        BitFlags::INT_EN_ASLP
+    } else {
+        0
+    } | if en_int.fifo {
+        BitFlags::INT_EN_FIFO
+    } else {
+        0
+    } | if en_int.transient {
+        BitFlags::INT_EN_TRANS
+    } else {
+        0
+    } | if en_int.portrait_landscape {
+        BitFlags::INT_EN_LNDPRT
+    } else {
+        0
+    } | if en_int.pulse {
+        BitFlags::INT_EN_PULSE
+    } else {
+        0
+    } | if en_int.freefall_motion {
+        BitFlags::INT_EN_FF_MT
+    } else {
+        0
+    } | if en_int.data_ready {
+        BitFlags::INT_EN_DRDY
+    } else {
+        0
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    fn int_reg_default() {
+        assert_eq!(0, get_enabled_int_reg(EnabledInterrupts::default()));
+    }
+
+    #[test]
+    fn int_status_all() {
+        assert_eq!(
+            BitFlags::INT_EN_ASLP
+                | BitFlags::INT_EN_DRDY
+                | BitFlags::INT_EN_FF_MT
+                | BitFlags::INT_EN_FIFO
+                | BitFlags::INT_EN_LNDPRT
+                | BitFlags::INT_EN_PULSE
+                | BitFlags::INT_EN_TRANS,
+            get_enabled_int_reg(EnabledInterrupts {
+                auto_sleep: true,
+                fifo: true,
+                transient: true,
+                portrait_landscape: true,
+                pulse: true,
+                freefall_motion: true,
+                data_ready: true
+            })
+        );
+    }
+
+    macro_rules! int_en_test {
+        ($name:ident, $bit_flag:ident) => {
+            #[test]
+            fn $name() {
+                assert_eq!(
+                    BitFlags::$bit_flag,
+                    get_enabled_int_reg(EnabledInterrupts {
+                        $name: true,
+                        ..EnabledInterrupts::default()
+                    })
+                );
+            }
+        };
+    }
+    int_en_test!(auto_sleep, INT_EN_ASLP);
+    int_en_test!(fifo, INT_EN_FIFO);
+    int_en_test!(transient, INT_EN_TRANS);
+    int_en_test!(portrait_landscape, INT_EN_LNDPRT);
+    int_en_test!(pulse, INT_EN_PULSE);
+    int_en_test!(freefall_motion, INT_EN_FF_MT);
+    int_en_test!(data_ready, INT_EN_DRDY);
+}
