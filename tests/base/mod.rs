@@ -19,6 +19,7 @@ impl Register {
     pub const ASLP_COUNT: u8 = 0x29;
     pub const CTRL_REG1: u8 = 0x2A;
     pub const CTRL_REG2: u8 = 0x2B;
+    pub const CTRL_REG3: u8 = 0x2C;
     pub const OFF_X: u8 = 0x2F;
 }
 
@@ -65,6 +66,8 @@ impl BitFlags {
     pub const SRC_TRANS: u8 = 1 << 5;
     pub const SRC_FIFO: u8 = 1 << 6;
     pub const SRC_ASLP: u8 = 1 << 7;
+
+    pub const IPOL: u8 = 1 << 1;
 }
 
 #[allow(unused)]

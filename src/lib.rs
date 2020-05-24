@@ -82,7 +82,7 @@ mod types;
 use crate::types::MMA845X_BASE_ADDR;
 pub use crate::types::{
     ic, mode, AutoSleepDataRate, DataStatus, DebounceCounterMode, Error, FrontBackOrientation,
-    GScale, InterruptStatus, Measurement, ModeChangeError, OutputDataRate,
+    GScale, InterruptPinPolarity, InterruptStatus, Measurement, ModeChangeError, OutputDataRate,
     PortraitLandscapeOrientation, PortraitLandscapeStatus, PowerMode, ReadMode, SlaveAddr,
     SystemMode, UnscaledMeasurement,
 };
@@ -100,6 +100,7 @@ pub struct Mma8x5x<I2C, IC, MODE> {
     address: u8,
     ctrl_reg1: Config,
     ctrl_reg2: Config,
+    ctrl_reg3: Config,
     pl_cfg: Config,
     xyz_data_cfg: Config,
     _ic: PhantomData<IC>,

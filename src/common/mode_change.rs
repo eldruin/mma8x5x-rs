@@ -20,6 +20,7 @@ where
                 address: self.address,
                 ctrl_reg1: config,
                 ctrl_reg2: self.ctrl_reg2,
+                ctrl_reg3: self.ctrl_reg3,
                 pl_cfg: self.pl_cfg,
                 xyz_data_cfg: self.xyz_data_cfg,
                 _ic: PhantomData,
@@ -43,6 +44,7 @@ where
                 address: self.address,
                 ctrl_reg1: config,
                 ctrl_reg2: self.ctrl_reg2,
+                ctrl_reg3: self.ctrl_reg3,
                 pl_cfg: self.pl_cfg,
                 xyz_data_cfg: self.xyz_data_cfg,
                 _ic: PhantomData,
@@ -60,6 +62,7 @@ where
                 address: self.address,
                 ctrl_reg1: Config::default(),
                 ctrl_reg2: Config::default(),
+                ctrl_reg3: Config::default(),
                 pl_cfg: Config {
                     bits: BitFlags::DBCNTM,
                 },

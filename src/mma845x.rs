@@ -9,6 +9,7 @@ impl<I2C> Mma8x5x<I2C, ic::Mma8451, mode::Standby> {
             xyz_data_cfg: Config::default(),
             ctrl_reg1: Config::default(),
             ctrl_reg2: Config::default(),
+            ctrl_reg3: Config::default(),
             pl_cfg: Config {
                 bits: BitFlags::DBCNTM,
             },
@@ -28,6 +29,7 @@ impl<I2C> Mma8x5x<I2C, ic::Mma8452, mode::Standby> {
             xyz_data_cfg: Config::default(),
             ctrl_reg1: Config::default(),
             ctrl_reg2: Config::default(),
+            ctrl_reg3: Config::default(),
             pl_cfg: Config {
                 bits: BitFlags::DBCNTM,
             },
@@ -45,6 +47,7 @@ impl<I2C> Mma8x5x<I2C, ic::Mma8453, mode::Standby> {
             xyz_data_cfg: Config::default(),
             ctrl_reg1: Config::default(),
             ctrl_reg2: Config::default(),
+            ctrl_reg3: Config::default(),
             pl_cfg: Config {
                 bits: BitFlags::DBCNTM,
             },

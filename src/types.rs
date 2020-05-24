@@ -234,6 +234,15 @@ pub struct InterruptStatus {
     pub data_ready: bool,
 }
 
+/// Physical interrupt pin polarity
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub enum InterruptPinPolarity {
+    /// Low state when active (default)
+    ActiveLow,
+    /// High state when active
+    ActiveHigh,
+}
+
 /// Possible slave addresses
 #[derive(Debug, Clone, Copy)]
 pub enum SlaveAddr {

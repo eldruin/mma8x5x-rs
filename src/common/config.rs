@@ -1,8 +1,8 @@
 use crate::{
     ic, mode,
     register_access::{BitFlags, Register},
-    AutoSleepDataRate, Config, DebounceCounterMode, Error, GScale, Mma8x5x, OutputDataRate,
-    PowerMode, ReadMode,
+    AutoSleepDataRate, Config, DebounceCounterMode, Error, GScale, InterruptPinPolarity, Mma8x5x,
+    OutputDataRate, PowerMode, ReadMode,
 };
 use embedded_hal::blocking::i2c;
 
@@ -164,6 +164,20 @@ where
         self.set_debounce_counter_internal(counter)
     }
 
+    /// Set interrupt pin polarity
+    pub fn set_interrupt_pin_polarity(
+        &mut self,
+        polarity: InterruptPinPolarity,
+    ) -> Result<(), Error<E>> {
+        let config = match polarity {
+            InterruptPinPolarity::ActiveLow => self.ctrl_reg3.with_low(BitFlags::IPOL),
+            InterruptPinPolarity::ActiveHigh => self.ctrl_reg3.with_high(BitFlags::IPOL),
+        };
+        self.write_reg(Register::CTRL_REG3, config.bits)?;
+        self.ctrl_reg3 = config;
+        Ok(())
+    }
+
     /// Reset device
     pub fn reset(&mut self) -> Result<(), Error<E>> {
         self.reset_internal()
@@ -195,6 +209,7 @@ where
         self.write_reg(Register::CTRL_REG2, config.bits)?;
         self.ctrl_reg1 = Config::default();
         self.ctrl_reg2 = Config::default();
+        self.ctrl_reg3 = Config::default();
         self.pl_cfg = Config {
             bits: BitFlags::DBCNTM,
         };
