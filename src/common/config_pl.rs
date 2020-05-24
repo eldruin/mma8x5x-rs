@@ -5,6 +5,7 @@ use crate::{
 };
 use embedded_hal::blocking::i2c;
 
+/// Portrait/landscape detection configuration
 impl<E, I2C, IC> Mma8x5x<I2C, IC, mode::Standby>
 where
     I2C: i2c::WriteRead<Error = E> + i2c::Write<Error = E>,
