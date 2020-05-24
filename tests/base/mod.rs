@@ -87,6 +87,11 @@ impl BitFlags {
     pub const INT_CFG_TRANS: u8 = 1 << 5;
     pub const INT_CFG_FIFO: u8 = 1 << 6;
     pub const INT_CFG_ASLP: u8 = 1 << 7;
+
+    pub const WAKE_FF_MT: u8 = 1 << 3;
+    pub const WAKE_PULSE: u8 = 1 << 4;
+    pub const WAKE_LNDPRT: u8 = 1 << 5;
+    pub const WAKE_TRANS: u8 = 1 << 6;
 }
 
 #[allow(unused)]

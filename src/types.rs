@@ -309,6 +309,19 @@ pub struct InterruptPinRoutes {
     pub data_ready: InterruptSourcePinRoute,
 }
 
+/// Interrupts that wake the device from sleep
+#[derive(Debug, Default, Clone, Copy, PartialEq)]
+pub struct WakeInterrupts {
+    /// Acceleration transient interrupt
+    pub transient: bool,
+    /// Portrait/landscape orientation interrupt
+    pub portrait_landscape: bool,
+    /// Single and/or double pulse detection interrupt
+    pub pulse: bool,
+    /// Freefall/motion interrupt
+    pub freefall_motion: bool,
+}
+
 /// Possible slave addresses
 #[derive(Debug, Clone, Copy)]
 pub enum SlaveAddr {

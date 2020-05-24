@@ -6,7 +6,7 @@ use crate::base::{
 use embedded_hal_mock::i2c::Transaction as I2cTrans;
 use mma8x5x::{
     AutoSleepDataRate, DebounceCounterMode, EnabledInterrupts, InterruptPinConfiguration,
-    InterruptPinPolarity, OutputDataRate, PowerMode,
+    InterruptPinPolarity, OutputDataRate, PowerMode, WakeInterrupts,
 };
 
 macro_rules! set_odr_test {
@@ -304,6 +304,19 @@ macro_rules! tests {
                     pulse: true,
                     freefall_motion: true,
                     data_ready: true
+                }
+            );
+            set_test!(
+                set_wake_interrupts_all,
+                $create,
+                CTRL_REG3,
+                BF::WAKE_FF_MT | BF::WAKE_LNDPRT | BF::WAKE_PULSE | BF::WAKE_TRANS,
+                set_wake_interrupts,
+                WakeInterrupts {
+                    transient: true,
+                    portrait_landscape: true,
+                    pulse: true,
+                    freefall_motion: true,
                 }
             );
         }

@@ -32,6 +32,7 @@
 //!     - Set interrupt pin routes. See: [`set_interrupt_pin_routes()`].
 //!     - Set interrupt pin polarity. See: [`set_interrupt_pin_polarity()`].
 //!     - Set interrupt pin configuration. See: [`set_interrupt_pin_configuration()`].
+//!     - Set interrupts that wake the device from sleep. See: [`set_wake_interrupts()`].
 //!     - Read interrupt status. See: [`interrupt_status()`].
 //!
 //! [`into_active()`]: struct.Mma8x5x.html#method.into_active
@@ -59,8 +60,9 @@
 //! [`set_interrupt_pin_routes()`]: struct.Mma8x5x.html#method.set_interrupt_pin_routes
 //! [`set_interrupt_pin_polarity()`]: struct.Mma8x5x.html#method.set_interrupt_pin_polarity
 //! [`set_interrupt_pin_configuration()`]: struct.Mma8x5x.html#method.set_interrupt_pin_configuration
+//! [`set_wake_interrupts()`]: struct.Mma8x5x.html#method.set_wake_interrupts
 //! [`interrupt_status()`]: struct.Mma8x5x.html#method.interrupt_status
-//! 
+//!
 //! <!-- TODO
 //! [Introductory blog post](TODO)
 //! -->
@@ -139,7 +141,7 @@ pub use crate::types::{
     FrontBackOrientation, GScale, InterruptPinConfiguration, InterruptPinPolarity,
     InterruptPinRoutes, InterruptSourcePinRoute, InterruptStatus, Measurement, ModeChangeError,
     OutputDataRate, PortraitLandscapeOrientation, PortraitLandscapeStatus, PowerMode, ReadMode,
-    SlaveAddr, SystemMode, UnscaledMeasurement,
+    SlaveAddr, SystemMode, UnscaledMeasurement, WakeInterrupts,
 };
 mod common;
 mod conversion;

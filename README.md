@@ -37,6 +37,7 @@ This driver allows you to:
     - Set interrupt pin routes. See: `set_interrupt_pin_routes()`.
     - Set interrupt pin polarity. See: `set_interrupt_pin_polarity()`.
     - Set interrupt pin configuration. See: `set_interrupt_pin_configuration()`.
+    - Set interrupts that wake the device from sleep. See: `set_wake_interrupts()`.
     - Read interrupt status. See: `interrupt_status()`.
 
 <!-- TODO

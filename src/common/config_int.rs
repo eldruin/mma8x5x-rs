@@ -1,8 +1,8 @@
 use crate::{
     mode,
     register_access::{BitFlags, Register},
-    EnabledInterrupts, Error, InterruptPinConfiguration, InterruptPinPolarity, InterruptPinRoutes,
-    InterruptSourcePinRoute, Mma8x5x,
+    Config, EnabledInterrupts, Error, InterruptPinConfiguration, InterruptPinPolarity,
+    InterruptPinRoutes, InterruptSourcePinRoute, Mma8x5x, WakeInterrupts,
 };
 use embedded_hal::blocking::i2c;
 
@@ -47,6 +47,39 @@ where
     /// Set interrupt source pin routes
     pub fn set_interrupt_pin_routes(&mut self, routes: InterruptPinRoutes) -> Result<(), Error<E>> {
         self.write_reg(Register::CTRL_REG5, get_int_routes_reg(routes))
+    }
+
+    /// Set interrupts that wake the device
+    pub fn set_wake_interrupts(&mut self, interrupts: WakeInterrupts) -> Result<(), Error<E>> {
+        let config = self.ctrl_reg3.bits
+            & !(BitFlags::WAKE_FF_MT
+                | BitFlags::WAKE_LNDPRT
+                | BitFlags::WAKE_PULSE
+                | BitFlags::WAKE_TRANS);
+        let config = config | get_wake_int_mask(interrupts);
+        self.write_reg(Register::CTRL_REG3, config)?;
+        self.ctrl_reg3 = Config { bits: config };
+        Ok(())
+    }
+}
+
+fn get_wake_int_mask(wake_ints: WakeInterrupts) -> u8 {
+    0 | if wake_ints.transient {
+        BitFlags::WAKE_TRANS
+    } else {
+        0
+    } | if wake_ints.portrait_landscape {
+        BitFlags::WAKE_LNDPRT
+    } else {
+        0
+    } | if wake_ints.pulse {
+        BitFlags::WAKE_PULSE
+    } else {
+        0
+    } | if wake_ints.freefall_motion {
+        BitFlags::WAKE_FF_MT
+    } else {
+        0
     }
 }
 
@@ -203,4 +236,48 @@ mod int_routes_tests {
     int_route_test!(pulse, INT_CFG_PULSE);
     int_route_test!(freefall_motion, INT_CFG_FF_MT);
     int_route_test!(data_ready, INT_CFG_DRDY);
+}
+
+#[cfg(test)]
+mod wake_int_tests {
+    use super::*;
+    #[test]
+    fn default() {
+        assert_eq!(0, get_wake_int_mask(WakeInterrupts::default()));
+    }
+
+    #[test]
+    fn all() {
+        assert_eq!(
+            BitFlags::WAKE_FF_MT
+                | BitFlags::WAKE_LNDPRT
+                | BitFlags::WAKE_PULSE
+                | BitFlags::WAKE_TRANS,
+            get_wake_int_mask(WakeInterrupts {
+                transient: true,
+                portrait_landscape: true,
+                pulse: true,
+                freefall_motion: true,
+            })
+        );
+    }
+
+    macro_rules! wake_int_test {
+        ($name:ident, $bit_flag:ident) => {
+            #[test]
+            fn $name() {
+                assert_eq!(
+                    BitFlags::$bit_flag,
+                    get_wake_int_mask(WakeInterrupts {
+                        $name: true,
+                        ..WakeInterrupts::default()
+                    })
+                );
+            }
+        };
+    }
+    wake_int_test!(transient, WAKE_TRANS);
+    wake_int_test!(portrait_landscape, WAKE_LNDPRT);
+    wake_int_test!(pulse, WAKE_PULSE);
+    wake_int_test!(freefall_motion, WAKE_FF_MT);
 }
