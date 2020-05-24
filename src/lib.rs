@@ -112,22 +112,130 @@
 //!     - [MMA8652FC](https://www.nxp.com/docs/en/data-sheet/MMA8652FC.pdf)
 //!     - [MMA8653FC](https://www.nxp.com/docs/en/data-sheet/MMA8653FC.pdf)
 //!
-//! <!-- TODO
 //! ## Usage examples (see also examples folder)
 //!
 //! To use this driver, import this crate and an `embedded_hal` implementation,
-//! then instantiate the device.
+//! then instantiate the appropriate device.
+//!
+//! Most of the settings can only be changed while the device is in standby mode.
+//! Then the mode can be changed to active and acceleration measurements read.
 //!
 //! Please find additional examples using hardware in this repository: [driver-examples]
 //!
 //! [driver-examples]: https://github.com/eldruin/driver-examples
 //!
-//! ### ...
+//! ### Change mode to active and read acceleration
+//!
+//! Using an MMA8653
 //!
 //! ```no_run
-//! ```
-//! -->
+//! use linux_embedded_hal::I2cdev;
+//! use mma8x5x::Mma8x5x;
 //!
+//! let dev = I2cdev::new("/dev/i2c-1").unwrap();
+//! let sensor = Mma8x5x::new_mma8653(dev);
+//! let mut sensor = sensor.into_active().ok().unwrap();
+//! loop {
+//!     let accel = sensor.read().unwrap();
+//!     println!("Acceleration: {:?}", accel);
+//! }
+//! ```
+//!
+//! ### Change mode to active and read raw unscaled acceleration
+//!
+//! ```no_run
+//! # use linux_embedded_hal::I2cdev;
+//! use mma8x5x::{Mma8x5x, SlaveAddr};
+//!
+//! # let dev = I2cdev::new("/dev/i2c-1").unwrap();
+//! let sensor = Mma8x5x::new_mma8452(dev, SlaveAddr::default());
+//! let mut sensor = sensor.into_active().ok().unwrap();
+//! loop {
+//!     let accel = sensor.read_unscaled().unwrap();
+//!     println!("Raw acceleration: {:?}", accel);
+//! }
+//! ```
+//!
+//! ### Use alternative address
+//!
+//! ```no_run
+//! # use linux_embedded_hal::I2cdev;
+//! use mma8x5x::{Mma8x5x, SlaveAddr};
+//! # let dev = I2cdev::new("/dev/i2c-1").unwrap();
+//! let sensor = Mma8x5x::new_mma8451(dev, SlaveAddr::Alternative(true));
+//! ```
+//!
+//! ### Set scale to +/-8g and 200Hz ODR, then read acceleration
+//!
+//! ```no_run
+//! # use linux_embedded_hal::I2cdev;
+//! use mma8x5x::{Mma8x5x, GScale, OutputDataRate};
+//!
+//! # let dev = I2cdev::new("/dev/i2c-1").unwrap();
+//! let mut sensor = Mma8x5x::new_mma8652(dev);
+//! sensor.set_scale(GScale::G8).unwrap();
+//! sensor.set_data_rate(OutputDataRate::Hz200).unwrap();
+//! let mut sensor = sensor.into_active().ok().unwrap();
+//! loop {
+//!     let accel = sensor.read().unwrap();
+//!     println!("Acceleration: {:?}", accel);
+//! }
+//! ```
+//!
+//! ### Configure auto-sleep/wake mode
+//!
+//! ```no_run
+//! # use linux_embedded_hal::I2cdev;
+//! use mma8x5x::{Mma8x5x, AutoSleepDataRate, EnabledInterrupts, PowerMode};
+//!
+//! # let dev = I2cdev::new("/dev/i2c-1").unwrap();
+//! let mut sensor = Mma8x5x::new_mma8652(dev);
+//! sensor.set_auto_sleep_data_rate(AutoSleepDataRate::Hz12_5).unwrap();
+//! sensor.set_auto_sleep_count(125).unwrap();
+//! sensor.set_sleep_power_mode(PowerMode::LowPower).unwrap();
+//! sensor.enable_auto_sleep().unwrap();
+//! // ...
+//! let mut sensor = sensor.into_active().ok().unwrap();
+//! ```
+//!
+//! ### Enable portrait/landscape detection and interrupt generation
+//!
+//! ```no_run
+//! # use linux_embedded_hal::I2cdev;
+//! use mma8x5x::{Mma8x5x, EnabledInterrupts, InterruptPinPolarity};
+//!
+//! # let dev = I2cdev::new("/dev/i2c-1").unwrap();
+//! let mut sensor = Mma8x5x::new_mma8652(dev);
+//! sensor.set_enabled_interrupts(EnabledInterrupts {
+//!     portrait_landscape: true,
+//!     ..EnabledInterrupts::default() // the rest stays disabled
+//! }).unwrap();
+//! sensor.enable_portrait_landscape_detection().unwrap();
+//! sensor.set_interrupt_pin_polarity(InterruptPinPolarity::ActiveHigh).unwrap();
+//! let mut sensor = sensor.into_active().ok().unwrap();
+//! loop {
+//!     let pl_status = sensor.portrait_landscape_status();
+//!     println!("P/L status: {:?}", pl_status);
+//!     let int_status = sensor.interrupt_status();
+//!     println!("Interrupt status: {:?}", int_status);
+//! }
+//! ```
+//!
+//! ### Enable self-test
+//!
+//! ```no_run
+//! # use linux_embedded_hal::I2cdev;
+//! # use mma8x5x::Mma8x5x;
+//! #
+//! # let dev = I2cdev::new("/dev/i2c-1").unwrap();
+//! let mut sensor = Mma8x5x::new_mma8652(dev);
+//! sensor.enable_self_test().unwrap();
+//! let mut sensor = sensor.into_active().ok().unwrap();
+//! loop {
+//!     let accel = sensor.read().unwrap();
+//!     println!("Acceleration: {:?}", accel);
+//! }
+//! ```
 
 #![doc(html_root_url = "https://docs.rs/mma8x5x/0.1.0")]
 #![deny(unsafe_code, missing_docs)]

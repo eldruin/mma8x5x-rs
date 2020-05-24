@@ -89,19 +89,32 @@ Documentation:
     - [MMA8652FC](https://www.nxp.com/docs/en/data-sheet/MMA8652FC.pdf)
     - [MMA8653FC](https://www.nxp.com/docs/en/data-sheet/MMA8653FC.pdf)
 
-<!--
 ## Usage
 
 To use this driver, import this crate and an `embedded_hal` implementation,
 then instantiate the appropriate device.
+
+Most of the settings can only be changed while the device is in standby mode.
+Then the mode can be changed to active and acceleration measurements read.
 
 Please find additional examples using hardware in this repository: [driver-examples]
 
 [driver-examples]: https://github.com/eldruin/driver-examples
 
 ```rust
+use linux_embedded_hal::I2cdev;
+use mma8x5x::Mma8x5x;
+
+fn main() {
+    let dev = I2cdev::new("/dev/i2c-1").unwrap();
+    let sensor = Mma8x5x::new_mma8653(dev);
+    let mut sensor = sensor.into_active().ok().unwrap();
+    loop {
+        let accel = sensor.read().unwrap();
+        println!("Acceleration: {:?}", accel);
+    }
+}
 ```
--->
 
 ## Support
 
