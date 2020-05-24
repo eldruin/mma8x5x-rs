@@ -82,9 +82,10 @@ mod types;
 use crate::types::MMA845X_BASE_ADDR;
 pub use crate::types::{
     ic, mode, AutoSleepDataRate, DataStatus, DebounceCounterMode, EnabledInterrupts, Error,
-    FrontBackOrientation, GScale, InterruptPinConfiguration, InterruptPinPolarity, InterruptStatus,
-    Measurement, ModeChangeError, OutputDataRate, PortraitLandscapeOrientation,
-    PortraitLandscapeStatus, PowerMode, ReadMode, SlaveAddr, SystemMode, UnscaledMeasurement,
+    FrontBackOrientation, GScale, InterruptPinConfiguration, InterruptPinPolarity,
+    InterruptPinRoutes, InterruptSourcePinRoute, InterruptStatus, Measurement, ModeChangeError,
+    OutputDataRate, PortraitLandscapeOrientation, PortraitLandscapeStatus, PowerMode, ReadMode,
+    SlaveAddr, SystemMode, UnscaledMeasurement,
 };
 mod common;
 mod conversion;

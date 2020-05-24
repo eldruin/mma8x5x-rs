@@ -17,6 +17,7 @@ impl Register {
     pub const CTRL_REG2: u8 = 0x2B;
     pub const CTRL_REG3: u8 = 0x2C;
     pub const CTRL_REG4: u8 = 0x2D;
+    pub const CTRL_REG5: u8 = 0x2E;
     pub const OFF_X: u8 = 0x2F;
 }
 
@@ -78,6 +79,14 @@ impl BitFlags {
     pub const INT_EN_TRANS: u8 = 1 << 5;
     pub const INT_EN_FIFO: u8 = 1 << 6;
     pub const INT_EN_ASLP: u8 = 1 << 7;
+
+    pub const INT_CFG_DRDY: u8 = 1;
+    pub const INT_CFG_FF_MT: u8 = 1 << 2;
+    pub const INT_CFG_PULSE: u8 = 1 << 3;
+    pub const INT_CFG_LNDPRT: u8 = 1 << 4;
+    pub const INT_CFG_TRANS: u8 = 1 << 5;
+    pub const INT_CFG_FIFO: u8 = 1 << 6;
+    pub const INT_CFG_ASLP: u8 = 1 << 7;
 }
 
 impl<E, I2C, IC, MODE> Mma8x5x<I2C, IC, MODE>

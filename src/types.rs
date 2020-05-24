@@ -273,6 +273,42 @@ pub enum InterruptPinConfiguration {
     OpenDrain,
 }
 
+/// Interrupt source pin route
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub enum InterruptSourcePinRoute {
+    /// Source is routed to pin INT1
+    Int1,
+    /// Source is routed to pin INT2 (default)
+    Int2,
+}
+
+impl Default for InterruptSourcePinRoute {
+    fn default() -> Self {
+        InterruptSourcePinRoute::Int2
+    }
+}
+
+/// Interrupt source pin route
+///
+/// Unavailable interrupt sources on a device are ignored.
+#[derive(Debug, Default, Clone, Copy, PartialEq)]
+pub struct InterruptPinRoutes {
+    /// Auto-sleep/wake interrupt pin route (INT1/INT2)
+    pub auto_sleep: InterruptSourcePinRoute,
+    /// FIFO interrupt pin route (INT1/INT2)
+    pub fifo: InterruptSourcePinRoute,
+    /// Acceleration transient interrupt pin route (INT1/INT2)
+    pub transient: InterruptSourcePinRoute,
+    /// Portrait/landscape orientation interrupt pin route (INT1/INT2)
+    pub portrait_landscape: InterruptSourcePinRoute,
+    /// Single and/or double pulse detection interrupt pin route (INT1/INT2)
+    pub pulse: InterruptSourcePinRoute,
+    /// Freefall/motion interrupt pin route (INT1/INT2)
+    pub freefall_motion: InterruptSourcePinRoute,
+    /// Data ready interrupt pin route (INT1/INT2)
+    pub data_ready: InterruptSourcePinRoute,
+}
+
 /// Possible slave addresses
 #[derive(Debug, Clone, Copy)]
 pub enum SlaveAddr {
