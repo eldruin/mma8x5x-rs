@@ -81,8 +81,6 @@
 //!
 //! ### Feature comparison
 //!
-//! (Unavailable features are marked with "-" as this is more easily readable than Yes/No)
-//!
 //! | Feature                                   | MMA8451 | MMA8452 | MMA8453 | MMA8652 | MMA8653 |
 //! |-------------------------------------------|---------|---------|---------|---------|---------|
 //! | Resolution                                | 14-bit  | 12-bit  | 10-bit  | 12-bit  | 10-bit  |
@@ -103,6 +101,8 @@
 //! | Freefall interrupt                        | Yes     | Yes     | Yes     | Yes     | Yes     |
 //! | Motion interrupt with direction           | Yes     | Yes     | Yes     | Yes     | -       |
 //! | Selectable address pin                    | Yes     | Yes     | Yes     | -       | -       |
+//!
+//! (Unavailable features are marked with "-" as this is more easily readable than Yes/No)
 //!
 //! Documentation:
 //! - Datasheets:
