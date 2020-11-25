@@ -2,7 +2,7 @@
 
 [![crates.io](https://img.shields.io/crates/v/mma8x5x.svg)](https://crates.io/crates/mma8x5x)
 [![Docs](https://docs.rs/mma8x5x/badge.svg)](https://docs.rs/mma8x5x)
-[![Build Status](https://travis-ci.com/eldruin/mma8x5x-rs.svg?branch=master)](https://travis-ci.com/eldruin/mma8x5x-rs)
+[![Build Status](https://github.com/eldruin/mma8x5x-rs/workflows/Build/badge.svg)](https://github.com/eldruin/mma8x5x-rs/actions?query=workflow%3ABuild)
 [![Coverage Status](https://coveralls.io/repos/github/eldruin/mma8x5x-rs/badge.svg?branch=master)](https://coveralls.io/github/eldruin/mma8x5x-rs?branch=master)
 
 This is a platform agnostic Rust driver for the MMA8451Q, MMA8452Q, MMA8453Q, MMA8652FC

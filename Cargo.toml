@@ -21,7 +21,6 @@ include = [
 edition = "2018"
 
 [badges]
-travis-ci = { repository = "eldruin/mma8x5x-rs", branch = "master" }
 coveralls = { repository = "eldruin/mma8x5x-rs", branch = "master", service = "github" }
 
 [dependencies]
