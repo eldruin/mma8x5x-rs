@@ -64,7 +64,7 @@ where
 }
 
 fn get_wake_int_mask(wake_ints: WakeInterrupts) -> u8 {
-    0 | if wake_ints.transient {
+    (if wake_ints.transient {
         BitFlags::WAKE_TRANS
     } else {
         0
@@ -80,11 +80,11 @@ fn get_wake_int_mask(wake_ints: WakeInterrupts) -> u8 {
         BitFlags::WAKE_FF_MT
     } else {
         0
-    }
+    })
 }
 
 fn get_int_routes_reg(routes: InterruptPinRoutes) -> u8 {
-    0 | get_int_source_pin_route_reg(routes.auto_sleep, BitFlags::INT_CFG_ASLP)
+    get_int_source_pin_route_reg(routes.auto_sleep, BitFlags::INT_CFG_ASLP)
         | get_int_source_pin_route_reg(routes.fifo, BitFlags::INT_CFG_FIFO)
         | get_int_source_pin_route_reg(routes.transient, BitFlags::INT_CFG_TRANS)
         | get_int_source_pin_route_reg(routes.portrait_landscape, BitFlags::INT_CFG_LNDPRT)
@@ -101,7 +101,7 @@ fn get_int_source_pin_route_reg(route: InterruptSourcePinRoute, flag: u8) -> u8 
 }
 
 fn get_enabled_int_reg(en_int: EnabledInterrupts) -> u8 {
-    0 | if en_int.auto_sleep {
+    (if en_int.auto_sleep {
         BitFlags::INT_EN_ASLP
     } else {
         0
@@ -129,7 +129,7 @@ fn get_enabled_int_reg(en_int: EnabledInterrupts) -> u8 {
         BitFlags::INT_EN_DRDY
     } else {
         0
-    }
+    })
 }
 
 #[cfg(test)]
