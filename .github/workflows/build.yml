@@ -102,6 +102,7 @@ jobs:
       - name: Clippy
         uses: actions-rs/clippy-check@v1
         with:
+          args: --all-targets
           token: ${{ secrets.GITHUB_TOKEN }}
 
   test:
