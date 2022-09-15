@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 
 ### Fixed
- - Fixed bit changes not being written to the Mma8x5x struct in the functions 'set_data_rate', 'set_wake_power_mode', 'set_sleep_power_mode' and 'set_auto_sleep_data_rate'.
+ - Fixed bit changes not being written to the driver struct in the functions `set_data_rate`, `set_wake_power_mode`, `set_sleep_power_mode` and `set_auto_sleep_data_rate`.
 
 ## [0.1.0] - 2020-08-13
 
