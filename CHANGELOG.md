@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [0.1.1] - 2022-09-15
 
+### Added
+- Implement `PartialEq` and `Eq` on public structs.
+
 ### Fixed
  - Fixed bit changes not being written to the driver struct in the functions `set_data_rate`, `set_wake_power_mode`, `set_sleep_power_mode` and `set_auto_sleep_data_rate`.
 

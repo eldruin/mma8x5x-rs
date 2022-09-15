@@ -39,7 +39,7 @@ pub mod mode {
 }
 
 /// Unscaled acceleration measurement
-#[derive(Debug, Default, Clone, PartialEq)]
+#[derive(Debug, Default, Clone, PartialEq, Eq)]
 pub struct UnscaledMeasurement {
     /// X-axis acceleration.
     pub x: i16,
@@ -61,7 +61,7 @@ pub struct Measurement {
 }
 
 /// G scale
-#[derive(Debug, Clone, Copy, PartialEq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum GScale {
     /// Range: +/-2g
     G2,
@@ -72,7 +72,7 @@ pub enum GScale {
 }
 
 /// Read mode
-#[derive(Debug, Clone, Copy, PartialEq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum ReadMode {
     /// Normal read mode (default)
     Normal,
@@ -81,7 +81,7 @@ pub enum ReadMode {
 }
 
 /// Output data rate
-#[derive(Debug, Clone, Copy, PartialEq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum OutputDataRate {
     /// 800 Hz (default)
     Hz800,
@@ -102,7 +102,7 @@ pub enum OutputDataRate {
 }
 
 /// Sampling rate used in auto-sleep/wake mode
-#[derive(Debug, Clone, Copy, PartialEq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum AutoSleepDataRate {
     /// 50 Hz (default)
     Hz50,
@@ -115,7 +115,7 @@ pub enum AutoSleepDataRate {
 }
 
 /// Power mode
-#[derive(Debug, Clone, Copy, PartialEq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum PowerMode {
     /// Normal (default)
     Normal,
@@ -128,7 +128,7 @@ pub enum PowerMode {
 }
 
 /// Current system mode
-#[derive(Debug, Clone, Copy, PartialEq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum SystemMode {
     /// Standby mode
     Standby,
@@ -139,7 +139,7 @@ pub enum SystemMode {
 }
 
 /// Current data status
-#[derive(Debug, Default, Clone, Copy, PartialEq)]
+#[derive(Debug, Default, Clone, Copy, PartialEq, Eq)]
 pub struct DataStatus {
     /// X,Y,Z-axis data overwrite
     pub xyz_overwrite: bool,
@@ -160,7 +160,7 @@ pub struct DataStatus {
 }
 
 /// Portrait/landscape debounce counter mode
-#[derive(Debug, Clone, Copy, PartialEq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum DebounceCounterMode {
     /// Decrements debounce whenever the condition of interest is no longer valid.
     Decrement,
@@ -169,7 +169,7 @@ pub enum DebounceCounterMode {
 }
 
 /// Current portrait/landscape status
-#[derive(Debug, Default, Clone, Copy, PartialEq)]
+#[derive(Debug, Default, Clone, Copy, PartialEq, Eq)]
 pub struct PortraitLandscapeStatus {
     /// True if any of the other fields changed
     pub something_changed: bool,
@@ -182,7 +182,7 @@ pub struct PortraitLandscapeStatus {
 }
 
 /// Portrait/Landscape orientation
-#[derive(Debug, Clone, Copy, PartialEq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum PortraitLandscapeOrientation {
     /// Equipment is standing vertically in the normal orientation (default)
     PortraitUp,
@@ -201,7 +201,7 @@ impl Default for PortraitLandscapeOrientation {
 }
 
 /// Front/Back orientation
-#[derive(Debug, Clone, Copy, PartialEq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum FrontBackOrientation {
     /// Equipment is in front-facing orientation (default)
     Front,
@@ -216,7 +216,7 @@ impl Default for FrontBackOrientation {
 }
 
 /// Current interrupt status
-#[derive(Debug, Default, Clone, Copy, PartialEq)]
+#[derive(Debug, Default, Clone, Copy, PartialEq, Eq)]
 pub struct InterruptStatus {
     /// Auto-sleep/wake interrupt occurred
     pub auto_sleep: bool,
@@ -237,7 +237,7 @@ pub struct InterruptStatus {
 /// Interrupt source enable/disable
 ///
 /// Unavailable interrupt sources on a device are ignored.
-#[derive(Debug, Default, Clone, Copy, PartialEq)]
+#[derive(Debug, Default, Clone, Copy, PartialEq, Eq)]
 pub struct EnabledInterrupts {
     /// Auto-sleep/wake interrupt enabled
     pub auto_sleep: bool,
@@ -256,7 +256,7 @@ pub struct EnabledInterrupts {
 }
 
 /// Physical interrupt pin polarity
-#[derive(Debug, Clone, Copy, PartialEq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum InterruptPinPolarity {
     /// Low state when active (default)
     ActiveLow,
@@ -265,7 +265,7 @@ pub enum InterruptPinPolarity {
 }
 
 /// Physical interrupt pin configuration
-#[derive(Debug, Clone, Copy, PartialEq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum InterruptPinConfiguration {
     /// Push-pull configuration (default)
     PushPull,
@@ -274,7 +274,7 @@ pub enum InterruptPinConfiguration {
 }
 
 /// Interrupt source pin route
-#[derive(Debug, Clone, Copy, PartialEq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum InterruptSourcePinRoute {
     /// Source is routed to pin INT1
     Int1,
@@ -291,7 +291,7 @@ impl Default for InterruptSourcePinRoute {
 /// Interrupt source pin route
 ///
 /// Unavailable interrupt sources on a device are ignored.
-#[derive(Debug, Default, Clone, Copy, PartialEq)]
+#[derive(Debug, Default, Clone, Copy, PartialEq, Eq)]
 pub struct InterruptPinRoutes {
     /// Auto-sleep/wake interrupt pin route (INT1/INT2)
     pub auto_sleep: InterruptSourcePinRoute,
@@ -310,7 +310,7 @@ pub struct InterruptPinRoutes {
 }
 
 /// Interrupts that wake the device from sleep
-#[derive(Debug, Default, Clone, Copy, PartialEq)]
+#[derive(Debug, Default, Clone, Copy, PartialEq, Eq)]
 pub struct WakeInterrupts {
     /// Acceleration transient interrupt
     pub transient: bool,
@@ -323,7 +323,7 @@ pub struct WakeInterrupts {
 }
 
 /// Possible slave addresses
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum SlaveAddr {
     /// Default slave address
     Default,
