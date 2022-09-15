@@ -237,7 +237,6 @@
 //! }
 //! ```
 
-#![doc(html_root_url = "https://docs.rs/mma8x5x/0.1.0")]
 #![deny(unsafe_code, missing_docs)]
 #![no_std]
 
