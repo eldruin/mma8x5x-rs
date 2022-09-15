@@ -63,7 +63,8 @@ where
             OutputDataRate::Hz6_25 => BitFlags::ODR2 | BitFlags::ODR1,
             OutputDataRate::Hz1_56 => BitFlags::ODR2 | BitFlags::ODR1 | BitFlags::ODR0,
         };
-        self.write_reg(Register::CTRL_REG1, bits | mask)?;
+        let bits = bits | mask;
+        self.write_reg(Register::CTRL_REG1, bits)?;
         self.ctrl_reg1 = Config { bits };
         Ok(())
     }
@@ -77,7 +78,8 @@ where
             PowerMode::HighResolution => BitFlags::MODS1,
             PowerMode::LowPower => BitFlags::MODS1 | BitFlags::MODS0,
         };
-        self.write_reg(Register::CTRL_REG2, bits | mask)?;
+        let bits = bits | mask;
+        self.write_reg(Register::CTRL_REG2, bits)?;
         self.ctrl_reg2 = Config { bits };
         Ok(())
     }

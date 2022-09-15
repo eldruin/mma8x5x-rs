@@ -19,7 +19,8 @@ where
             PowerMode::HighResolution => BitFlags::SMODS1,
             PowerMode::LowPower => BitFlags::SMODS1 | BitFlags::SMODS0,
         };
-        self.write_reg(Register::CTRL_REG2, bits | mask)?;
+        let bits = bits | mask;
+        self.write_reg(Register::CTRL_REG2, bits)?;
         self.ctrl_reg2 = Config { bits };
         Ok(())
     }
@@ -49,7 +50,8 @@ where
             AutoSleepDataRate::Hz6_25 => BitFlags::ASLP_RATE1,
             AutoSleepDataRate::Hz1_56 => BitFlags::ASLP_RATE1 | BitFlags::ASLP_RATE0,
         };
-        self.write_reg(Register::CTRL_REG1, bits | mask)?;
+        let bits = bits | mask;
+        self.write_reg(Register::CTRL_REG1, bits)?;
         self.ctrl_reg1 = Config { bits };
         Ok(())
     }
