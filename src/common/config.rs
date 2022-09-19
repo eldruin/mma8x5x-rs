@@ -3,6 +3,7 @@ use crate::{
     register_access::{BitFlags, Register},
     Config, Error, GScale, Mma8x5x, OutputDataRate, PowerMode, ReadMode,
 };
+use embedded_hal::blocking::delay::DelayUs;
 use embedded_hal::blocking::i2c;
 
 impl<E, I2C, IC> Mma8x5x<I2C, IC, mode::Standby>
@@ -85,6 +86,16 @@ where
     }
 
     /// Reset device
+    ///
+    /// It takes up to 500 us to execute a reset.
+    /// Disable the `delay` feature for a version of this function that does require a delay argument
+    /// (the sensor will still not respond for up to 500 us).
+    #[cfg(feature = "delay")]
+    pub fn reset<D: DelayUs<u32>>(&mut self, delay: &mut D) -> Result<(), Error<E>> {
+        self.reset_internal(delay)
+    }
+
+    #[cfg(not(feature = "delay"))]
     pub fn reset(&mut self) -> Result<(), Error<E>> {
         self.reset_internal()
     }
@@ -110,9 +121,28 @@ impl<E, I2C, IC, MODE> Mma8x5x<I2C, IC, MODE>
 where
     I2C: i2c::WriteRead<Error = E> + i2c::Write<Error = E>,
 {
+    #[cfg(feature = "delay")]
+    pub(crate) fn reset_internal<D: DelayUs<u32>>(
+        &mut self,
+        delay: &mut D,
+    ) -> Result<(), Error<E>> {
+        let config = self.ctrl_reg2.with_high(BitFlags::RST);
+        self.write_reg(Register::CTRL_REG2, config.bits)?;
+        delay.delay_us(500);
+        self.reset_registers();
+        Ok(())
+    }
+
+    #[cfg(not(feature = "delay"))]
     pub(crate) fn reset_internal(&mut self) -> Result<(), Error<E>> {
         let config = self.ctrl_reg2.with_high(BitFlags::RST);
         self.write_reg(Register::CTRL_REG2, config.bits)?;
+        self.reset_registers();
+        Ok(())
+    }
+
+    #[inline]
+    fn reset_registers(&mut self) {
         self.ctrl_reg1 = Config::default();
         self.ctrl_reg2 = Config::default();
         self.ctrl_reg3 = Config::default();
@@ -120,6 +150,5 @@ where
             bits: BitFlags::DBCNTM,
         };
         self.xyz_data_cfg = Config::default();
-        Ok(())
     }
 }

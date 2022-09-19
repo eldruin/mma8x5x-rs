@@ -4,6 +4,7 @@ use crate::{
     Config, Mma8x5x, ModeChangeError,
 };
 use core::marker::PhantomData;
+use embedded_hal::blocking::delay::DelayUs;
 use embedded_hal::blocking::i2c;
 
 impl<E, I2C, IC> Mma8x5x<I2C, IC, mode::Standby>
@@ -58,6 +59,34 @@ where
     }
 
     /// Reset (changes mode to standby)
+    ///
+    /// It takes up to 500 us to execute a reset.
+    /// Disable the `delay` feature for a version of this function that does require a delay argument
+    /// (the sensor will still not respond for up to 500 us).
+    #[cfg(feature = "delay")]
+    pub fn reset<D: DelayUs<u32>>(
+        mut self,
+        delay: &mut D,
+    ) -> Result<Mma8x5x<I2C, IC, mode::Standby>, ModeChangeError<E, Self>> {
+        match self.reset_internal(delay) {
+            Err(error) => Err(ModeChangeError { error, dev: self }),
+            Ok(_) => Ok(Mma8x5x {
+                i2c: self.i2c,
+                address: self.address,
+                ctrl_reg1: Config::default(),
+                ctrl_reg2: Config::default(),
+                ctrl_reg3: Config::default(),
+                pl_cfg: Config {
+                    bits: BitFlags::DBCNTM,
+                },
+                xyz_data_cfg: Config::default(),
+                _ic: PhantomData,
+                _mode: PhantomData,
+            }),
+        }
+    }
+
+    #[cfg(not(feature = "delay"))]
     pub fn reset(mut self) -> Result<Mma8x5x<I2C, IC, mode::Standby>, ModeChangeError<E, Self>> {
         match self.reset_internal() {
             Err(error) => Err(ModeChangeError { error, dev: self }),

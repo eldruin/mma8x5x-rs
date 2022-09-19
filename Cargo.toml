@@ -29,3 +29,8 @@ embedded-hal-mock = "0.8"
 
 [profile.release]
 lto = true
+
+[features]
+default = ["delay", "reset_on_initialization"]
+delay = []
+reset_on_initialization = []
