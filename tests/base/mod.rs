@@ -1,4 +1,4 @@
-use embedded_hal_mock::delay::Delay;
+use embedded_hal_mock::delay::StdSleep;
 use embedded_hal_mock::i2c::{Mock as I2cMock, Transaction as I2cTrans};
 use mma8x5x::{ic, mode, Mma8x5x, SlaveAddr};
 
@@ -100,8 +100,9 @@ pub fn new_mma8451(transactions: &[I2cTrans]) -> Mma8x5x<I2cMock, ic::Mma8451, m
     Mma8x5x::new_mma8451(
         I2cMock::new(transactions),
         SlaveAddr::Alternative(true),
-        Delay,
+        &mut StdSleep,
     )
+    .unwrap()
 }
 
 #[allow(unused)]
@@ -109,8 +110,9 @@ pub fn new_mma8452(transactions: &[I2cTrans]) -> Mma8x5x<I2cMock, ic::Mma8452, m
     Mma8x5x::new_mma8452(
         I2cMock::new(transactions),
         SlaveAddr::Alternative(true),
-        Delay,
+        &mut StdSleep,
     )
+    .unwrap()
 }
 
 #[allow(unused)]
@@ -118,18 +120,19 @@ pub fn new_mma8453(transactions: &[I2cTrans]) -> Mma8x5x<I2cMock, ic::Mma8453, m
     Mma8x5x::new_mma8453(
         I2cMock::new(transactions),
         SlaveAddr::Alternative(true),
-        Delay,
+        &mut StdSleep,
     )
+    .unwrap()
 }
 
 #[allow(unused)]
 pub fn new_mma8652(transactions: &[I2cTrans]) -> Mma8x5x<I2cMock, ic::Mma8652, mode::Standby> {
-    Mma8x5x::new_mma8652(I2cMock::new(transactions), Delay)
+    Mma8x5x::new_mma8652(I2cMock::new(transactions), &mut StdSleep).unwrap()
 }
 
 #[allow(unused)]
 pub fn new_mma8653(transactions: &[I2cTrans]) -> Mma8x5x<I2cMock, ic::Mma8653, mode::Standby> {
-    Mma8x5x::new_mma8653(I2cMock::new(transactions), Delay)
+    Mma8x5x::new_mma8653(I2cMock::new(transactions), &mut StdSleep).unwrap()
 }
 
 pub fn destroy<IC, MODE>(sensor: Mma8x5x<I2cMock, IC, MODE>) {
