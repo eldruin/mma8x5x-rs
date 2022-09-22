@@ -1,8 +1,10 @@
 use crate::{
     mode,
     register_access::{BitFlags, Register},
+    types::MAX_BOOT_TIME_US,
     Config, Error, GScale, Mma8x5x, OutputDataRate, PowerMode, ReadMode,
 };
+use embedded_hal::blocking::delay::DelayUs;
 use embedded_hal::blocking::i2c;
 
 impl<E, I2C, IC> Mma8x5x<I2C, IC, mode::Standby>
@@ -85,6 +87,18 @@ where
     }
 
     /// Reset device
+    ///
+    /// It takes up to 500 us to execute a reset.
+    /// Disable the `delay` feature for a version of this function that does require a delay argument
+    /// (the sensor will still not respond for up to 500 us).
+    #[cfg(feature = "delay")]
+    pub fn reset<D: DelayUs<u32>>(&mut self, delay: &mut D) -> Result<(), Error<E>> {
+        let result = self.reset_internal();
+        delay.delay_us(MAX_BOOT_TIME_US);
+        result
+    }
+
+    #[cfg(not(feature = "delay"))]
     pub fn reset(&mut self) -> Result<(), Error<E>> {
         self.reset_internal()
     }

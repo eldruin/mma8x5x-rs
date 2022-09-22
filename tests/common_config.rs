@@ -3,6 +3,7 @@ use crate::base::{
     destroy, new_mma8451, new_mma8452, new_mma8453, new_mma8652, new_mma8653, BitFlags as BF,
     Register, ADDRESS,
 };
+use embedded_hal_mock::delay::StdSleep;
 use embedded_hal_mock::i2c::Transaction as I2cTrans;
 use mma8x5x::{OutputDataRate, PowerMode};
 
@@ -97,7 +98,7 @@ macro_rules! tests {
                 PowerMode::LowPower
             );
 
-            set_test!(can_reset, $create, CTRL_REG2, BF::RST, reset);
+            set_test!(can_reset, $create, CTRL_REG2, BF::RST, reset, &mut StdSleep);
             #[test]
             fn can_activate_then_reset() {
                 let sensor = $create(&[
@@ -105,7 +106,7 @@ macro_rules! tests {
                     I2cTrans::write(ADDRESS, vec![Register::CTRL_REG2, BF::RST]),
                 ]);
                 let sensor = sensor.into_active().ok().unwrap();
-                let sensor = sensor.reset().ok().unwrap();
+                let sensor = sensor.reset(&mut StdSleep).ok().unwrap();
                 destroy(sensor);
             }
 

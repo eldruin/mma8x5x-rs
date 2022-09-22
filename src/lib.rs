@@ -63,6 +63,19 @@
 //! [`set_wake_interrupts()`]: struct.Mma8x5x.html#method.set_wake_interrupts
 //! [`interrupt_status()`]: struct.Mma8x5x.html#method.interrupt_status
 //!
+//! ## Crate features
+//!
+//! * **delay** -
+//!   Adds a delay argument to some functions (so far only the reset function). These functions will now wait for the
+//!   time required for the operation.
+//!   Disabling this feature allows for other tasks to be executed while the mma8x5x is busy, but should still make
+//!   sure to take the wait times in account.
+//! * **reset_on_initialization** -
+//!   Resets the chip during initialization. This makes sure the mma8x5x registers have the default values.
+//!   Note that the reset takes time (up to 500 us).
+//!   This feature can be disabled if the mma8x5x is always in default state when the driver is used (for example, by
+//!   using a power cycle)
+//!
 //! <!-- TODO
 //! [Introductory blog post](TODO)
 //! -->
