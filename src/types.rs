@@ -1,5 +1,8 @@
 pub const MMA845X_BASE_ADDR: u8 = 0x1C;
 
+// From Datasheet Electrical Characteristics
+pub const MAX_BOOT_TIME_US: u32 = 500;
+
 /// All possible errors in this crate
 #[derive(Debug)]
 pub enum Error<E> {

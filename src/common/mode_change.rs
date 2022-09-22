@@ -1,6 +1,7 @@
 use crate::{
     mode,
     register_access::{BitFlags, Register},
+    types::MAX_BOOT_TIME_US,
     Config, Mma8x5x, ModeChangeError,
 };
 use core::marker::PhantomData;
@@ -68,7 +69,9 @@ where
         mut self,
         delay: &mut D,
     ) -> Result<Mma8x5x<I2C, IC, mode::Standby>, ModeChangeError<E, Self>> {
-        match self.reset_internal(delay) {
+        let result = self.reset_internal();
+        delay.delay_us(MAX_BOOT_TIME_US);
+        match result {
             Err(error) => Err(ModeChangeError { error, dev: self }),
             Ok(_) => Ok(Mma8x5x {
                 i2c: self.i2c,
