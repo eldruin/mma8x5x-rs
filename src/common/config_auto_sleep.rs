@@ -1,14 +1,15 @@
+use embedded_hal::i2c::{SevenBitAddress, I2c};
+
 use crate::{
     mode,
     register_access::{BitFlags, Register},
     AutoSleepDataRate, Config, Error, Mma8x5x, PowerMode,
 };
-use embedded_hal::blocking::i2c;
 
 /// Auto-sleep/wake configuration
 impl<E, I2C, IC> Mma8x5x<I2C, IC, mode::Standby>
 where
-    I2C: i2c::WriteRead<Error = E> + i2c::Write<Error = E>,
+    I2C: I2c<SevenBitAddress, Error = E>,
 {
     /// Set power mode in sleep mode
     pub fn set_sleep_power_mode(&mut self, power_mode: PowerMode) -> Result<(), Error<E>> {

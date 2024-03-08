@@ -1,5 +1,5 @@
 use crate::{Error, Mma8x5x};
-use embedded_hal::blocking::i2c;
+use embedded_hal::i2c::{I2c, SevenBitAddress};
 
 pub struct Register {}
 impl Register {
@@ -96,7 +96,7 @@ impl BitFlags {
 
 impl<E, I2C, IC, MODE> Mma8x5x<I2C, IC, MODE>
 where
-    I2C: i2c::WriteRead<Error = E>,
+    I2C: I2c<SevenBitAddress, Error = E>,
 {
     pub(crate) fn read_reg(&mut self, register: u8) -> Result<u8, Error<E>> {
         let mut data = [0];
@@ -109,7 +109,7 @@ where
 
 impl<E, I2C, IC, MODE> Mma8x5x<I2C, IC, MODE>
 where
-    I2C: i2c::Write<Error = E>,
+    I2C: I2c<SevenBitAddress, Error = E>,
 {
     pub(crate) fn write_reg(&mut self, register: u8, value: u8) -> Result<(), Error<E>> {
         self.i2c

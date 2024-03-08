@@ -1,6 +1,6 @@
 mod base;
 use crate::base::{destroy, new_mma8451, new_mma8652, Register, ADDRESS};
-use embedded_hal_mock::i2c::Transaction as I2cTrans;
+use embedded_hal_mock::eh1::i2c::Transaction as I2cTrans;
 
 macro_rules! tests {
     ($name:ident, $create:ident) => {

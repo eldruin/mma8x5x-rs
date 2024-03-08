@@ -1,15 +1,16 @@
+use embedded_hal::i2c::{SevenBitAddress, I2c};
+
 use crate::{
     mode,
     register_access::{BitFlags, Register},
     Config, EnabledInterrupts, Error, InterruptPinConfiguration, InterruptPinPolarity,
     InterruptPinRoutes, InterruptSourcePinRoute, Mma8x5x, WakeInterrupts,
 };
-use embedded_hal::blocking::i2c;
 
 /// Interrupt configuration
 impl<E, I2C, IC> Mma8x5x<I2C, IC, mode::Standby>
 where
-    I2C: i2c::WriteRead<Error = E> + i2c::Write<Error = E>,
+    I2C: I2c<SevenBitAddress, Error = E>,
 {
     /// Set interrupt pin polarity
     pub fn set_interrupt_pin_polarity(
