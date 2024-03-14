@@ -1,4 +1,4 @@
-use embedded_hal::i2c::{SevenBitAddress, I2c};
+use embedded_hal::i2c::{I2c, SevenBitAddress};
 
 use crate::{
     mode,

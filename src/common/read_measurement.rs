@@ -1,6 +1,6 @@
 //! MLX90614-specific functions
 
-use embedded_hal::i2c::{SevenBitAddress, I2c};
+use embedded_hal::i2c::{I2c, SevenBitAddress};
 
 use crate::{
     conversion::{convert_10bit, convert_12bit, convert_14bit},
