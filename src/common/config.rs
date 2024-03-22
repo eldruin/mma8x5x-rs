@@ -1,13 +1,14 @@
+use embedded_hal::i2c::{I2c, SevenBitAddress};
+
 use crate::{
     mode,
     register_access::{BitFlags, Register},
     Config, Error, GScale, Mma8x5x, OutputDataRate, PowerMode, ReadMode,
 };
-use embedded_hal::blocking::i2c;
 
 impl<E, I2C, IC> Mma8x5x<I2C, IC, mode::Standby>
 where
-    I2C: i2c::WriteRead<Error = E> + i2c::Write<Error = E>,
+    I2C: I2c<SevenBitAddress, Error = E>,
 {
     /// Set G scale: +/-2g, +/-4g, +/-8g
     pub fn set_scale(&mut self, scale: GScale) -> Result<(), Error<E>> {
@@ -108,7 +109,7 @@ where
 
 impl<E, I2C, IC, MODE> Mma8x5x<I2C, IC, MODE>
 where
-    I2C: i2c::WriteRead<Error = E> + i2c::Write<Error = E>,
+    I2C: I2c<SevenBitAddress, Error = E>,
 {
     pub(crate) fn reset_internal(&mut self) -> Result<(), Error<E>> {
         let config = self.ctrl_reg2.with_high(BitFlags::RST);

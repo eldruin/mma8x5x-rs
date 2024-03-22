@@ -2,7 +2,7 @@ mod base;
 use crate::base::{
     destroy, new_mma8451, new_mma8452, new_mma8453, new_mma8652, new_mma8653, Register, ADDRESS,
 };
-use embedded_hal_mock::i2c::Transaction as I2cTrans;
+use embedded_hal_mock::eh1::i2c::Transaction as I2cTrans;
 use mma8x5x::SystemMode;
 
 macro_rules! tests {

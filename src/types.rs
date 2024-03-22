@@ -182,9 +182,10 @@ pub struct PortraitLandscapeStatus {
 }
 
 /// Portrait/Landscape orientation
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
 pub enum PortraitLandscapeOrientation {
     /// Equipment is standing vertically in the normal orientation (default)
+    #[default]
     PortraitUp,
     /// Equipment is standing vertically in the inverted orientation
     PortraitDown,
@@ -194,25 +195,14 @@ pub enum PortraitLandscapeOrientation {
     LandscapeLeft,
 }
 
-impl Default for PortraitLandscapeOrientation {
-    fn default() -> Self {
-        PortraitLandscapeOrientation::PortraitUp
-    }
-}
-
 /// Front/Back orientation
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
 pub enum FrontBackOrientation {
     /// Equipment is in front-facing orientation (default)
+    #[default]
     Front,
     /// Equipment is in back-facing orientation
     Back,
-}
-
-impl Default for FrontBackOrientation {
-    fn default() -> Self {
-        FrontBackOrientation::Front
-    }
 }
 
 /// Current interrupt status
@@ -274,18 +264,14 @@ pub enum InterruptPinConfiguration {
 }
 
 /// Interrupt source pin route
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
 pub enum InterruptSourcePinRoute {
     /// Source is routed to pin INT1
     Int1,
-    /// Source is routed to pin INT2 (default)
-    Int2,
-}
 
-impl Default for InterruptSourcePinRoute {
-    fn default() -> Self {
-        InterruptSourcePinRoute::Int2
-    }
+    /// Source is routed to pin INT2 (default)
+    #[default]
+    Int2,
 }
 
 /// Interrupt source pin route
@@ -323,19 +309,13 @@ pub struct WakeInterrupts {
 }
 
 /// Possible slave addresses
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
 pub enum SlaveAddr {
     /// Default slave address
+    #[default]
     Default,
     /// Alternative slave address providing bit value for A0
     Alternative(bool),
-}
-
-impl Default for SlaveAddr {
-    /// Default slave address
-    fn default() -> Self {
-        SlaveAddr::Default
-    }
 }
 
 impl SlaveAddr {

@@ -5,11 +5,11 @@ use crate::{
     DataStatus, Error, FrontBackOrientation, InterruptStatus, Mma8x5x,
     PortraitLandscapeOrientation, PortraitLandscapeStatus, SystemMode,
 };
-use embedded_hal::blocking::i2c;
+use embedded_hal::i2c::{I2c, SevenBitAddress};
 
 impl<E, I2C, IC, MODE> Mma8x5x<I2C, IC, MODE>
 where
-    I2C: i2c::WriteRead<Error = E> + i2c::Write<Error = E>,
+    I2C: I2c<SevenBitAddress, Error = E>,
 {
     /// Read current system mode
     pub fn system_mode(&mut self) -> Result<SystemMode, Error<E>> {

@@ -1,4 +1,4 @@
-use embedded_hal_mock::i2c::{Mock as I2cMock, Transaction as I2cTrans};
+use embedded_hal_mock::eh1::i2c::{Mock as I2cMock, Transaction as I2cTrans};
 use mma8x5x::{ic, mode, Mma8x5x, SlaveAddr};
 
 #[allow(unused)]

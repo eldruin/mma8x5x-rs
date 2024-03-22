@@ -1,14 +1,15 @@
+use embedded_hal::i2c::{I2c, SevenBitAddress};
+
 use crate::{
     ic, mode,
     register_access::{BitFlags, Register},
     DebounceCounterMode, Error, Mma8x5x,
 };
-use embedded_hal::blocking::i2c;
 
 /// Portrait/landscape detection configuration
 impl<E, I2C, IC> Mma8x5x<I2C, IC, mode::Standby>
 where
-    I2C: i2c::WriteRead<Error = E> + i2c::Write<Error = E>,
+    I2C: I2c<SevenBitAddress, Error = E>,
 {
     /// Enable portrait/landscape detection
     pub fn enable_portrait_landscape_detection(&mut self) -> Result<(), Error<E>> {
@@ -45,7 +46,7 @@ where
 
 impl<E, I2C, IC, MODE> Mma8x5x<I2C, IC, MODE>
 where
-    I2C: i2c::WriteRead<Error = E> + i2c::Write<Error = E>,
+    I2C: I2c<SevenBitAddress, Error = E>,
 {
     pub(crate) fn set_debounce_counter_internal(&mut self, counter: u8) -> Result<(), Error<E>> {
         self.write_reg(Register::PL_COUNT, counter)
@@ -56,7 +57,7 @@ macro_rules! set_allowed_in_active_mode {
     ($ic:ident) => {
         impl<E, I2C> Mma8x5x<I2C, ic::$ic, mode::Active>
         where
-            I2C: i2c::WriteRead<Error = E> + i2c::Write<Error = E>,
+            I2C: I2c<SevenBitAddress, Error = E>,
         {
             /// Set portrait/landscape debounce counter
             pub fn set_debounce_counter(&mut self, counter: u8) -> Result<(), Error<E>> {

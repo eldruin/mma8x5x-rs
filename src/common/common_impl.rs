@@ -1,5 +1,5 @@
 use crate::{register_access::Register, Error, Mma8x5x};
-use embedded_hal::blocking::i2c;
+use embedded_hal::i2c::{I2c, SevenBitAddress};
 
 impl<I2C, IC, MODE> Mma8x5x<I2C, IC, MODE> {
     /// Destroy driver instance, return I²C bus and delay instance.
@@ -10,7 +10,7 @@ impl<I2C, IC, MODE> Mma8x5x<I2C, IC, MODE> {
 
 impl<E, I2C, IC, MODE> Mma8x5x<I2C, IC, MODE>
 where
-    I2C: i2c::WriteRead<Error = E> + i2c::Write<Error = E>,
+    I2C: I2c<SevenBitAddress, Error = E>,
 {
     /// Return device ID (Who am I)
     pub fn device_id(&mut self) -> Result<u8, Error<E>> {

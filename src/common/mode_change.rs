@@ -1,14 +1,15 @@
+use embedded_hal::i2c::{I2c, SevenBitAddress};
+
 use crate::{
     mode,
     register_access::{BitFlags, Register},
     Config, Mma8x5x, ModeChangeError,
 };
 use core::marker::PhantomData;
-use embedded_hal::blocking::i2c;
 
 impl<E, I2C, IC> Mma8x5x<I2C, IC, mode::Standby>
 where
-    I2C: i2c::WriteRead<Error = E> + i2c::Write<Error = E>,
+    I2C: I2c<SevenBitAddress, Error = E>,
 {
     /// Change mode to active
     pub fn into_active(
@@ -34,7 +35,7 @@ where
 
 impl<E, I2C, IC> Mma8x5x<I2C, IC, mode::Active>
 where
-    I2C: i2c::WriteRead<Error = E> + i2c::Write<Error = E>,
+    I2C: I2c<SevenBitAddress, Error = E>,
 {
     /// Change mode to standby
     pub fn into_standby(

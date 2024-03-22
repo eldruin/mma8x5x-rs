@@ -1,16 +1,17 @@
 //! MLX90614-specific functions
 
+use embedded_hal::i2c::{I2c, SevenBitAddress};
+
 use crate::{
     conversion::{convert_10bit, convert_12bit, convert_14bit},
     ic, mode,
     register_access::{BitFlags, Register},
     Error, Measurement, Mma8x5x, UnscaledMeasurement,
 };
-use embedded_hal::blocking::i2c;
 
 impl<E, I2C, IC> Mma8x5x<I2C, IC, mode::Active>
 where
-    I2C: i2c::WriteRead<Error = E> + i2c::Write<Error = E>,
+    I2C: I2c<SevenBitAddress, Error = E>,
 {
     pub(crate) fn scale_measurement(&self, unscaled: UnscaledMeasurement, max: f32) -> Measurement {
         match self.xyz_data_cfg.bits & 0b11 {
@@ -57,7 +58,7 @@ macro_rules! read_impl {
     ($ic:ident, $converter:ident, $max:expr) => {
         impl<E, I2C> Mma8x5x<I2C, ic::$ic, mode::Active>
         where
-            I2C: i2c::WriteRead<Error = E> + i2c::Write<Error = E>,
+            I2C: I2c<SevenBitAddress, Error = E>,
         {
             /// Read unscaled acceleration sensor data.
             ///
