@@ -11,6 +11,10 @@ impl Register {
     pub const XYZ_DATA_CFG: u8 = 0x0E;
     pub const PL_CFG: u8 = 0x11;
     pub const PL_COUNT: u8 = 0x12;
+    pub const FF_MT_CFG: u8 = 0x15;
+    pub const FF_MT_SRC: u8 = 0x16;
+    pub const FF_MT_THS: u8 = 0x17;
+    pub const FF_MT_COUNT: u8 = 0x17;
     pub const PL_STATUS: u8 = 0x10;
     pub const ASLP_COUNT: u8 = 0x29;
     pub const CTRL_REG1: u8 = 0x2A;
@@ -60,6 +64,20 @@ impl BitFlags {
     pub const LAPO1: u8 = 1 << 2;
     pub const LO: u8 = 1 << 6;
     pub const NEWLP: u8 = 1 << 7;
+
+    pub const XEFE: u8 = 1 << 3;
+    pub const YEFE: u8 = 1 << 4;
+    pub const ZEFE: u8 = 1 << 5;
+    pub const OAE: u8 = 1 << 6;
+    pub const ELE: u8 = 1 << 7;
+
+    pub const XHP: u8 = 1 << 0;
+    pub const XHE: u8 = 1 << 1;
+    pub const YHP: u8 = 1 << 2;
+    pub const YHE: u8 = 1 << 3;
+    pub const ZHP: u8 = 1 << 4;
+    pub const ZHE: u8 = 1 << 5;
+    pub const EA: u8 = 1 << 7;
 
     pub const SRC_DRDY: u8 = 1;
     pub const SRC_FF_MT: u8 = 1 << 2;

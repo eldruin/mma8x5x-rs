@@ -245,6 +245,7 @@ mod types;
 use crate::types::MMA845X_BASE_ADDR;
 pub use crate::types::{
     ic, mode, AutoSleepDataRate, DataStatus, DebounceCounterMode, EnabledInterrupts, Error,
+    FreefallMotionConfiguration, FreefallMotionDebounceMode, FreefallMotionDetectionMode,
     FrontBackOrientation, GScale, InterruptPinConfiguration, InterruptPinPolarity,
     InterruptPinRoutes, InterruptSourcePinRoute, InterruptStatus, Measurement, ModeChangeError,
     OutputDataRate, PortraitLandscapeOrientation, PortraitLandscapeStatus, PowerMode, ReadMode,
