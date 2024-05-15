@@ -33,8 +33,10 @@ pub mod ic {
 /// Mode markers
 pub mod mode {
     /// Standby mode
+    #[derive(Debug)]
     pub struct Standby;
     /// Active mode
+    #[derive(Debug)]
     pub struct Active;
 }
 
@@ -203,6 +205,84 @@ pub enum FrontBackOrientation {
     Front,
     /// Equipment is in back-facing orientation
     Back,
+}
+
+/// Freefall/Motion detection mode
+#[derive(Default, Debug)]
+pub enum FreefallMotionDetectionMode {
+    /// detect freefall
+    #[default]
+    Freefall,
+    /// detect motion
+    Motion,
+}
+
+/// Freefall/Motion debounce mode
+#[derive(Default, Debug)]
+pub enum FreefallMotionDebounceMode {
+    /// Increments or decrements debounce
+    #[default]
+    IncrementOrDecrement,
+    /// Increments or clears counter
+    IncrementOrClear,
+}
+
+/// Freefall/Motion detection configuration
+#[derive(Debug)]
+pub struct FreefallMotionConfiguration {
+    /// if true, event is latched into FF_MT_SRC and must be read to clear
+    pub event_latch: bool,
+    /// detection mode
+    pub detection_mode: FreefallMotionDetectionMode,
+    /// enable detection in x-axis
+    pub x_axis: bool,
+    /// enable detection in y-axis
+    pub y_axis: bool,
+    /// enable detection in z-axis
+    pub z_axis: bool,
+    /// detection threshold, in 1/1000 G
+    pub threshold: u16,
+    /// debounce counter mode
+    pub debounce_mode: FreefallMotionDebounceMode,
+    /// debounce sample count
+    pub debounce_count: u8,
+}
+
+impl Default for FreefallMotionConfiguration {
+    fn default() -> Self {
+        Self {
+            event_latch: false,
+            detection_mode: Default::default(),
+            x_axis: true,
+            y_axis: true,
+            z_axis: true,
+            threshold: 500,
+            debounce_mode: Default::default(),
+            debounce_count: 0,
+        }
+    }
+}
+
+/// Freefall/Motion axis activity
+#[derive(Debug)]
+pub enum FreefallMotionAxisActivity {
+    /// motion in the axis not detected
+    None,
+    /// positive axis movement detected
+    Positive,
+    /// negative axis movement detected
+    Negative,
+}
+
+/// Freefall/Motion event source
+#[derive(Debug)]
+pub struct FreefallMotionSource {
+    /// movement activity in x-axis
+    pub x_axis: FreefallMotionAxisActivity,
+    /// movement activity in y-axis
+    pub y_axis: FreefallMotionAxisActivity,
+    /// movement activity in z-axis
+    pub z_axis: FreefallMotionAxisActivity,
 }
 
 /// Current interrupt status
