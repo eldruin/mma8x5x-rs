@@ -19,22 +19,29 @@ pub struct ModeChangeError<E, DEV> {
 /// IC markers
 pub mod ic {
     /// MMA8451 IC marker
+    #[derive(Debug)]
     pub struct Mma8451;
     /// MMA8452 IC marker
+    #[derive(Debug)]
     pub struct Mma8452;
     /// MMA8453 IC marker
+    #[derive(Debug)]
     pub struct Mma8453;
     /// MMA8652 IC marker
+    #[derive(Debug)]
     pub struct Mma8652;
     /// MMA8653 IC marker
+    #[derive(Debug)]
     pub struct Mma8653;
 }
 
 /// Mode markers
 pub mod mode {
     /// Standby mode
+    #[derive(Debug)]
     pub struct Standby;
     /// Active mode
+    #[derive(Debug)]
     pub struct Active;
 }
 
